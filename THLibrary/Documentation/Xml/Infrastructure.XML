@@ -1,0 +1,402 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Infrastructure</name>
+    </assembly>
+    <members>
+        <member name="T:Infrastructure.Data.Library">
+            <summary>
+            Class <c>Library</c> is responsible for holding all data
+            relevent to the library; namely the Books.
+            It also contains the references to the Keywords, Authors,
+            Titles and ISBN references in the library.
+            </summary>
+            <remarks>
+            This class holds a collection of the individual <see cref="T:Core.Model.LibraryBook"/> classes.
+            The collection is exposes as a <c>Public</c> property and is held as a generic List of type
+            <c>LibraryBook</c>.  The List(T) collection is used to facilitate working with Linq from 
+            the repository.  The data is an unordered list, held in the sequence the items are added, and 
+            this collection type offers the simplest way of providing that, and gives good access to the items
+            individually.  However, the use of Linq will negate some of the index access requirements.
+            The other generic collection types offer very specific type of access and data structures which 
+            are not the most appropriate here.
+            Makes use of the UnitOfWork pattern through implementing the <see cref="T:Core.Interfaces.IUnitOfWork"/>
+            interface combined with Lifetime management of the class through the Unity IoC.
+            </remarks>
+        </member>
+        <member name="F:Infrastructure.Data.Library.Books">
+            <summary>
+            Exposes the collection of library bookes in the library
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.Library.Authors">
+            <summary>
+            Exposes a collection of all Authors in the library, for selecting searchable Authors.
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.Library.Titles">
+            <summary>
+            Exposes a collection of all Title in the library, for selecting searchable Titles.
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.Library.Isbns">
+            <summary>
+            Exposes a collection of all ISBN References in the n the in the library, for selecting searchable ISBN.
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.Library.Keywords">
+            <summary>
+            Exposes a collection of all Keywords for the books in the library, for selecting searchable Keywords.
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.Library._libraryBookFactory">
+            <summary>
+            Holds instance of the Library Book Factory
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Data.Library.#ctor(Core.Factories.LibraryBookFactory)">
+            <summary>
+            Ctor: to accept the injected dependencies.
+            </summary>
+            <param name="libraryBookFactory">Concrete instance of the LibraryBookFactory class</param>
+        </member>
+        <member name="M:Infrastructure.Data.Library.Load">
+            <summary>
+            Low level function to load the Database from the 
+            supplied CSV file, representing the database.
+            </summary>
+            <returns>An instance of a genereic List(LibraryBook) of library books.</returns>
+        </member>
+        <member name="M:Infrastructure.Data.Library.loadData">
+            <summary>
+            Method <c>loadData</c> performs the reading of
+            the csv file containing the library extract data.
+            It populates all data collection contained within
+            this Library.
+            It is called from the Library constructor, but
+            can also be called from a Public method Load()
+            </summary>
+        </member>
+        <member name="T:Infrastructure.Data.SearchData">
+            <summary>
+            Class <c>SearchData</c> is responsible for holding all 
+            data relevent to the searches;
+            </summary>
+            <remarks>
+            This class holds a collection of the individual <see cref="T:Core.Model.SearchCriteria"/> classes.
+            The collection is exposes as a <c>Public</c> property and is held as a generic List of type
+            <c>SearchCriteria</c>.  The List(T) collection is used to facilitate working with Linq from 
+            the repository.  The data is an unordered list, held in the sequence the items are added, and 
+            this collection type offers the simplest way of providing that, and gives good access to the items
+            individually.  However, the use of Linq will negate some of the index access requirements.
+            The other generic collection types offer very specific type of access and data structures which 
+            are not the most appropriate here.
+            Makes use of the UnitOfWork pattern through implementing the <see cref="T:Core.Interfaces.ISearchUnitOfWork"/>
+            interface combined with Lifetime management of the class through the Unity IoC.
+            </remarks>
+        </member>
+        <member name="F:Infrastructure.Data.SearchData.Searches">
+            <summary>
+            Exposes a generic List collection of all searchCriteria classes.
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.SearchData.SearchFile">
+            <summary>
+            Holds the instance of the file handle to the underlying searches data file (Xml).
+            </summary>
+        </member>
+        <member name="F:Infrastructure.Data.SearchData._searchFactory">
+            <summary>
+            Private instance of the SeacrhFactory, for creation of the SearchCriteria class.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Data.SearchData.#ctor(Core.Factories.SearchCriteriaFactory)">
+            <summary>
+            Ctor: to inject dependencies.
+            </summary>
+            <param name="SearchFactory">Search Factory dependency</param>
+            <remarks>
+            The SearchFactory is required to create the searchCriteria class.
+            </remarks>
+        </member>
+        <member name="M:Infrastructure.Data.SearchData.Load">
+            <summary>
+            Load method is responsible for retrieving the saved searches
+            from the local storage file.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Data.SearchData.Save">
+            <summary>
+            Save method is responsible for persisting the searches in
+            a local storage file.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Data.SearchData.loadData">
+            <summary>
+            Private loadData method is responsible for reading the
+            searches from the local storage file.  If the file does not
+            exist, then an empty version of the file is created to that
+            the handle can be stored and the Save method can assume that
+            the file exists, and that it already has the appropriate 
+            handle pointing to it.  
+            </summary>
+            <remarks>
+            The handle to the searches data file is held within this class so
+            that the same file can be used when the application closes to persist
+            searches data.
+            This avoids problems with reading directories and getting hold of 
+            the file again, as the Async nature of the method calls can lead 
+            to problems and cause the application to halt, without raising an exception.
+            </remarks>
+        </member>
+        <member name="M:Infrastructure.Data.SearchData.saveData">
+            <summary>
+            Private saveData method is responsible for writing the
+            searches to the local storage file, serialised as XML.
+            </summary>
+            <remarks>
+            This method uses the handel to the data file that is returned
+            when the file is originally read in.
+            </remarks>
+        </member>
+        <member name="T:Infrastructure.Helpers.DataFileHelper">
+            <summary>
+            Static class <c>DataFileHelper</c> gets the comma separated values
+            file that is located within the Assets folder of the main
+            application installation folder.
+            </summary>
+            <remarks>
+            For a Windows Store App, we have very few places where such 
+            a data file can be accessed and still be distributed with 
+            the application. (It's very restrictive).
+            </remarks>
+        </member>
+        <member name="M:Infrastructure.Helpers.DataFileHelper.GetDataFile">
+            <summary>
+            GetDataFile gets the datafile 'LibraryData.txt' from the 
+            Assets folder within the installed location of the 
+            application
+            </summary>
+            <returns>Returns a Windows.Storage.StorageFile instance.</returns>
+            <remarks>
+            It is an asynchronous static method.
+            </remarks>
+        </member>
+        <member name="T:Infrastructure.Helpers.DeserialiseData">
+            <summary>
+            Static class <c>DeserialiseData</c> is responsible for converting
+            the CSV data file into a LibraryBook class instanc.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Helpers.DeserialiseData.ToBook(System.String,Core.Factories.LibraryBookFactory)">
+            <summary>
+            Static method <c>ToBook</c> accepts some csv data from the
+            data file and deserialises it into an instance of a
+            LibraryBook class.
+            </summary>
+            <param name="csvData">The commas separated data (1 line)</param>
+            <param name="factory">concrete instance of the LibraryBookFactory class.</param>
+            <returns>A populated instance of a LibraryBook class.</returns>
+        </member>
+        <member name="T:Infrastructure.Helpers.FileIOHelper">
+            <summary>
+            Class <c> FileIOHelper</c> is a static class providing static methods
+            to controll access to the file system and local storage folders
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetInstallFolder">
+            <summary>
+            Returns the storage folder pointing to the installed location of
+            the application
+            </summary>
+            <returns>Instance of StorageFolder.</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetLocalFolder">
+            <summary>
+            Returns the storage folder pointing to the location of the local
+            storage folder for a Windows Store App.
+            </summary>
+            <returns>Instance of StorageFolder.</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetSubFolder(System.String,Windows.Storage.StorageFolder)">
+            <summary>
+            Returns a Storage folder for the subfolder of the parent folder
+            </summary>
+            <param name="folderName">The name of the desired sub-folder.</param>
+            <param name="ParentFolder">The name of the parent folder, containing the sub-folder</param>
+            <returns>Instance of StorageFolder.</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetFileNames">
+            <summary>
+            Returns a collection of file names for all files within the local storage folder (Overloaded).
+            </summary>
+            <returns>Colliection (List(string)) of File names.</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetFileNames(Windows.Storage.StorageFolder)">
+            <summary>
+            Returns a collection of file names for all files within the specified storage folder (Overloaded).
+            </summary>
+            <param name="Folder">The instance of StorageFolder containing the list of files.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetFile(System.String)">
+            <summary>
+            Returns an instance of the StorageFile for the specified filename in the local storage folder (overloaded).
+            </summary>
+            <param name="filename">The name of the file.</param>
+            <returns>Instance of StorageFile.</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.GetFile(System.String,Windows.Storage.StorageFolder)">
+            <summary>
+            Returns an instance of the StorageFile for the specified filename in the specified storage folder (overloaded).
+            </summary>
+            <param name="filename">The instance of the StorageFolder.</param>
+            <param name="Folder">The name of the file.</param>
+            <returns>Instance of StorageFile</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.CreateFile(System.String)">
+            <summary>
+            Creates and returns the instance of StorageFile for the specified flename within the local storage folder (overloaded).
+            </summary>
+            <param name="filename">The name of the file to create.</param>
+            <returns>Instance of StorageFile</returns>
+        </member>
+        <member name="M:Infrastructure.Helpers.FileIOHelper.CreateFile(System.String,Windows.Storage.StorageFolder)">
+            <summary>
+            Creates and returns the instance of StorageFile for the specified flename within the specified storage folder (overloaded).
+            </summary>
+            <param name="filename">The name of the file to create.</param>
+            <param name="Folder">Instance of StorageFolder where the file is to be created.</param>
+            <returns>Instance of StorageFile.</returns>
+        </member>
+        <member name="T:Infrastructure.Helpers.SearchesFileHelper">
+            <summary>
+            Static class <c>SearchesFileHelper</c> gets the XML serialised
+            file that is located within the local folder. 
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Helpers.SearchesFileHelper.GetDataFile">
+            <summary>
+            GetDataFile gets the datafile 'SearchesData.xml' from the 
+            local folder 
+            </summary>
+            <returns>Returns a Windows.Storage.StorageFile instance.</returns>
+            <remarks>
+            It is an asynchronous static method.
+            </remarks>
+        </member>
+        <member name="M:Infrastructure.Helpers.SearchesFileHelper.CreateDataFile">
+            <summary>
+            CreateDataFile creates the datafile 'SearchesData.xml' in the
+            local folder and returns the instance.
+            </summary>
+            <returns>returns a Windows.Storage.StorageFile instance.</returns>
+        </member>
+        <member name="T:Infrastructure.NamespaceDoc">
+            <summary>
+            The <c>Infrastructure</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with cross cutting concerns.
+            see http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.
+            </summary>
+            <remarks>
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assebly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </remarks>
+        </member>
+        <member name="T:Infrastructure.Repositories.LibraryRepository">
+            <summary>
+            Concrete inplmenetation of the <see cref="T:Core.Interfaces.ILibraryRepository"/> interface.
+            It is responsible for access to the library contents, as well as controlling the loading of
+            the library information from the CSV source file.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Repositories.LibraryRepository.#ctor(Core.Interfaces.IUnitOfWork)">
+            <summary>
+            Ctor to inject reference to Dataclass.
+            </summary>
+            <param name="UnitOfWork">The concrete instance of the Library</param>
+        </member>
+        <member name="M:Infrastructure.Repositories.LibraryRepository.GetBook(System.String)">
+            <summary>
+            Gets a library book for the specified ISBN reference.
+            NOT REQUIRED, We'll be using linq to get search results.
+            </summary>
+            <param name="ISBN">ISBN reference</param>
+            <returns>Instance of LibraryBook</returns>
+        </member>
+        <member name="M:Infrastructure.Repositories.LibraryRepository.GetAllBooks">
+            <summary>
+            Returns a collection of all <see cref="T:Core.Model.LibraryBook"/> held in the library.
+            </summary>
+            <returns>IEnumerable(LibraryBook)</returns>
+        </member>
+        <member name="M:Infrastructure.Repositories.LibraryRepository.GetSearchableBookValues(System.String)">
+            <summary>
+            Gets the collection of value that can be searched for depending
+            on the supplies string representation of the SearchTypeEnum.
+            </summary>
+            <param name="type">String representation of <see cref="T:Core.Model.SearchTypeEnum"/></param>.
+            <returns>IEnumerable collection of string values.</returns>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if the supplied Type is not in the SearchTypeEnum enumeration.
+            </exception>
+        </member>
+        <member name="M:Infrastructure.Repositories.LibraryRepository.SearchBooks(Core.Model.SearchCriteria)">
+            <summary>
+            Returns a collection of <see cref="T:Core.Model.LibraryBook"/> that match the specified 
+            <see cref="T:Core.Model.SearchCriteria"/>.
+            </summary>
+            <param name="searchCriteria">The specified search criteria</param>
+            <returns>collection of matching Library books.</returns>
+        </member>
+        <member name="T:Infrastructure.Repositories.SearchRepository">
+            <summary>
+            Concrete inplmenetation of the <see cref="T:Core.Interfaces.ISearchRepository"/> interface.
+            It is responsible for access to the Search Criteria, as well as controlling the loading and 
+            persistance of the search criteria to the local storage file.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Repositories.SearchRepository.#ctor(Core.Interfaces.ISearchUnitOfWork)">
+            <summary>
+            Ctor to inject reference to Dataclass.
+            </summary>
+            <param name="UnitOfWork">The concrete instance of the Library</param>
+        </member>
+        <member name="M:Infrastructure.Repositories.SearchRepository.GetSearches">
+            <summary>
+            Retrieve all searches defined
+            </summary>
+            <returns>collection of searches</returns>
+        </member>
+        <member name="M:Infrastructure.Repositories.SearchRepository.GetSearchTypes">
+            <summary>
+            Returns a collection of Search Types.  Representation of the <see cref="T:Core.Model.SearchTypeEnum"/>
+            enumeration.
+            </summary>
+            <returns>Collection of strings, search type names.</returns>
+        </member>
+        <member name="M:Infrastructure.Repositories.SearchRepository.AddSearch(Core.Model.SearchCriteria)">
+            <summary>
+            Adds a new <see cref="T:Core.Model.SearchCriteria"/> to the collection of Searches.
+            </summary>
+            <param name="criteria">The Search Criteria to be added</param>
+            <returns>The UniqueId of the search just added</returns>
+        </member>
+        <member name="M:Infrastructure.Repositories.SearchRepository.CloseData">
+            <summary>
+            CloseData method is responsible for persisting
+            the searches to local storage.  
+            It should be called only from the OnSuspending
+            event within the App.xaml.cs.
+            </summary>
+        </member>
+        <member name="M:Infrastructure.Repositories.SearchRepository.GetLastId">
+            <summary>
+            Gets the last Id number used for a search.
+            </summary>
+            <returns>int containing the last (highest) uniqueId in the searches.</returns>
+        </member>
+    </members>
+</doc>

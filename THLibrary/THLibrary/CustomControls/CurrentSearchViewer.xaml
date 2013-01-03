@@ -1,0 +1,39 @@
+﻿<UserControl
+    x:Class="THLibrary.CustomControls.CurrentSearchViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:THLibrary.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="700">
+    
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="auto" >
+            <StackPanel Orientation="Horizontal" Width="auto"  >
+                <TextBlock Text="Search for: " Width="70" Margin="10,10,0,10" VerticalAlignment="Center" Style="{StaticResource ItemTextStyle}"/>
+                <TextBox x:Name="txtSearchString" Width="450" Margin="10,10,10,10" 
+                         Text="{Binding SearchString, Mode=TwoWay}" />
+                <Button x:Name="btnSearch" Content="Search" Margin="10,10,10,10" HorizontalAlignment="Right" Click="btnSearch_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Width="auto">
+                <TextBlock Text="Search In:" Width="70" Style="{StaticResource ItemTextStyle}" Margin="10,10,0,10" VerticalAlignment="Center" />
+                <ComboBox x:Name="cbSearchType" HorizontalAlignment="Left" Margin="10,10,5,10" VerticalAlignment="Center" Width="150" 
+                          ItemsSource="{Binding SearchTypes, Mode=TwoWay}" 
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+                          SelectedIndex="{Binding SelectedTypeIndex, Mode=TwoWay}" 
+                          DisplayMemberPath="Type" 
+                          SelectionChanged="cbSearchType_SelectionChanged" />
+                <TextBlock Text="for values:" Width="70" Style="{StaticResource ItemTextStyle}" Margin="10,10,0,10" VerticalAlignment="Center" />
+                <ComboBox x:Name="cbSearchSelector" Width="300" Margin="10,10,15,10" 
+                          ItemsSource="{Binding SelectedItem.Values, ElementName=cbSearchType, Mode=TwoWay}"   
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                          SelectedIndex="{Binding SelectedTypeValueIndex, Mode=TwoWay}" 
+                          SelectionChanged="cbSearchSelector_SelectionChanged" />
+                <!--SelectedIndex="{Binding SearchableItemsIndex, Mode=TwoWay}"  />-->
+                <!--<Button x:Name="SaveButton" Content="Save Search" Margin="10,0,0,0"/>-->
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
