@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     SampleDataSource.cs
+//Description:      The sample datasoure provided by the template..
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -255,6 +265,9 @@ namespace THLibrary.DataModel
             return null;
         }
 
+        /// <summary>
+        /// Constructor, which loads the sample data.
+        /// </summary>
         public SampleDataSource()
         {
             String ITEM_CONTENT = String.Format("Item Content: {0}\n\n{0}\n\n{0}\n\n{0}\n\n{0}\n\n{0}\n\n{0}",

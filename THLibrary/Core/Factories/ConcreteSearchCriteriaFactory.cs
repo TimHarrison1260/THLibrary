@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     ConcreteSearchCriteriaFactory.cs
+//Description:      Contract for the LibraryBookFactory
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 
 using Core.Model;
 using Core.Model.ConcreteClasses;
@@ -6,16 +16,18 @@ using Core.Model.ConcreteClasses;
 namespace Core.Factories
 {
     /// <summary>
-    /// Class <c>ConcreteSearchCriteriaFactory</c>implements
-    /// SearchCriteriaFactory and is responsible for creating
-    /// an concrete instance of the abstract SearchCriteria class.
+    /// An instance of the SearchCriteriaFactory class.
     /// </summary>
     public class ConcreteSearchCriteriaFactory : SearchCriteriaFactory
     {
         /// <summary>
-        /// Create the instance of the SearchCriteria
+        /// Creates an initialised instance of the 
+        /// <see cref="Core.Model.SearchCriteria"/> class.
         /// </summary>
-        /// <returns>The instanceof the SearchCriteria class</returns>
+        /// <returns>Initialised SearchCriteria class.</returns>
+        /// <remarks>
+        /// Derives from the <see cref="Core.Factories.SearchCriteriaFactory"/> abstract class.
+        /// </remarks>
         public override SearchCriteria Create()
         {
             //  Set defaults
@@ -24,6 +36,7 @@ namespace Core.Factories
             var search = new ConcreteSearchCriteria()
             {
                 Title = "",
+                //  TODO:   Change default to SearchTypeEnum.SearchString.
                 Type = SearchTypeEnum.Author,
                 SearchString = "",
                 SearchDate = DateTime.Now

@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     Configuration.cs
+//Description:      Resolves the dependencies for the application
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +42,13 @@ namespace IoC
         /// <summary>
         /// Register the types to be injected using the Unity IoC
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="container">The singleton instance of the IoC container</param>
+        /// <remarks>
+        /// This methos resolves the dependencies for all components within 
+        /// the layers, other than the UI layer.  There is an additional RegisterTypes
+        /// method within the UI layer, which resolves dependencies entirely within
+        /// the UI layer.
+        /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
             //  Register repositories (Core and Infrastructure projects)

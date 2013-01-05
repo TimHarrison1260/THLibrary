@@ -7,11 +7,13 @@
         <member name="T:Infrastructure.Data.Library">
             <summary>
             Class <c>Library</c> is responsible for holding all data
-            relevent to the library; namely the Books.
+            relevent to the library; namely the Books.  It is accessed via the 
+            <see cref="T:Infrastructure.Repositories.LibraryRepository"/>.
             It also contains the references to the Keywords, Authors,
             Titles and ISBN references in the library.
             </summary>
             <remarks>
+            <para>
             This class holds a collection of the individual <see cref="T:Core.Model.LibraryBook"/> classes.
             The collection is exposes as a <c>Public</c> property and is held as a generic List of type
             <c>LibraryBook</c>.  The List(T) collection is used to facilitate working with Linq from 
@@ -20,8 +22,12 @@
             individually.  However, the use of Linq will negate some of the index access requirements.
             The other generic collection types offer very specific type of access and data structures which 
             are not the most appropriate here.
+            </para>
+            <para>
             Makes use of the UnitOfWork pattern through implementing the <see cref="T:Core.Interfaces.IUnitOfWork"/>
-            interface combined with Lifetime management of the class through the Unity IoC.
+            interface combined with Lifetime management of the class through the Unity IoC.  this ensure that the 
+            same instance of data is always accessed.
+            </para>
             </remarks>
         </member>
         <member name="F:Infrastructure.Data.Library.Books">
@@ -77,12 +83,34 @@
             can also be called from a Public method Load()
             </summary>
         </member>
+        <member name="T:Infrastructure.Data.NamespaceDoc">
+            <summary>
+            The Namespace <c>Infrastructure.Data</c> is part of the <c>Infrastructure</c> project and
+            contains the classes responsible for accessing
+            and furnishing the data to the business model.  The contents of each class are loaded
+            at application startup and hold all data in memory until the application closes.
+            The <c>Library</c> class holds the information relating to the libraryBooks and associated
+            information.  The <c>SearchData</c> class holds all information relating to the searches
+            that have been saved by users.
+            </summary>
+            <remarks>
+            The <c>Infrastructure</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with cross cutting concerns.
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </remarks>
+        </member>
         <member name="T:Infrastructure.Data.SearchData">
             <summary>
             Class <c>SearchData</c> is responsible for holding all 
             data relevent to the searches;
             </summary>
             <remarks>
+            <para>
             This class holds a collection of the individual <see cref="T:Core.Model.SearchCriteria"/> classes.
             The collection is exposes as a <c>Public</c> property and is held as a generic List of type
             <c>SearchCriteria</c>.  The List(T) collection is used to facilitate working with Linq from 
@@ -91,8 +119,12 @@
             individually.  However, the use of Linq will negate some of the index access requirements.
             The other generic collection types offer very specific type of access and data structures which 
             are not the most appropriate here.
+            </para>
+            <para>
             Makes use of the UnitOfWork pattern through implementing the <see cref="T:Core.Interfaces.ISearchUnitOfWork"/>
-            interface combined with Lifetime management of the class through the Unity IoC.
+            interface combined with Lifetime management of the class through the Unity IoC.  This ensures the same instance
+            of the SearchData is always accessed.
+            </para>
             </remarks>
         </member>
         <member name="F:Infrastructure.Data.SearchData.Searches">
@@ -187,6 +219,11 @@
             Static class <c>DeserialiseData</c> is responsible for converting
             the CSV data file into a LibraryBook class instanc.
             </summary>
+            <remarks>
+            The ToBook method accepts a concrete instance of the <see cref="T:Core.Factories.LibraryBookFactory"/>
+            which is used to create the instance of the <see cref="T:Core.Model.LibraryBook"/> class for each
+            record read from the CSV file.
+            </remarks>
         </member>
         <member name="M:Infrastructure.Helpers.DeserialiseData.ToBook(System.String,Core.Factories.LibraryBookFactory)">
             <summary>
@@ -237,7 +274,7 @@
             Returns a collection of file names for all files within the specified storage folder (Overloaded).
             </summary>
             <param name="Folder">The instance of StorageFolder containing the list of files.</param>
-            <returns></returns>
+            <returns>Colliection (List(string)) of File names.</returns>
         </member>
         <member name="M:Infrastructure.Helpers.FileIOHelper.GetFile(System.String)">
             <summary>
@@ -269,6 +306,22 @@
             <param name="Folder">Instance of StorageFolder where the file is to be created.</param>
             <returns>Instance of StorageFile.</returns>
         </member>
+        <member name="T:Infrastructure.Helpers.NamespaceDoc">
+            <summary>
+            The Namespace <c>Infrastructure.Helpers</c> is responsible for grouping
+            the helper methods that provide access to the underlying file system.
+            </summary>
+            <remarks>
+            The <c>Infrastructure</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with cross cutting concerns.
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </remarks>
+        </member>
         <member name="T:Infrastructure.Helpers.SearchesFileHelper">
             <summary>
             Static class <c>SearchesFileHelper</c> gets the XML serialised
@@ -297,17 +350,17 @@
             The <c>Infrastructure</c> namespace contains all elements of the
             Application design model, referred to as the 'Onion Model', considered
             to be part of the application dealing with cross cutting concerns.
-            see http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
             </summary>
             <remarks>
             This is a separate project within the Application, which therefore holds
-            all objects in a separate assebly, thus improving the Separation of 
+            all objects in a separate assembly, thus improving the Separation of 
             Concerns required for reusable and unit testable code.
             </remarks>
         </member>
         <member name="T:Infrastructure.Repositories.LibraryRepository">
             <summary>
-            Concrete inplmenetation of the <see cref="T:Core.Interfaces.ILibraryRepository"/> interface.
+            Concrete implmenetation of the <see cref="T:Core.Interfaces.ILibraryRepository"/> interface.
             It is responsible for access to the library contents, as well as controlling the loading of
             the library information from the CSV source file.
             </summary>
@@ -317,14 +370,6 @@
             Ctor to inject reference to Dataclass.
             </summary>
             <param name="UnitOfWork">The concrete instance of the Library</param>
-        </member>
-        <member name="M:Infrastructure.Repositories.LibraryRepository.GetBook(System.String)">
-            <summary>
-            Gets a library book for the specified ISBN reference.
-            NOT REQUIRED, We'll be using linq to get search results.
-            </summary>
-            <param name="ISBN">ISBN reference</param>
-            <returns>Instance of LibraryBook</returns>
         </member>
         <member name="M:Infrastructure.Repositories.LibraryRepository.GetAllBooks">
             <summary>
@@ -351,12 +396,47 @@
             <param name="searchCriteria">The specified search criteria</param>
             <returns>collection of matching Library books.</returns>
         </member>
+        <member name="T:Infrastructure.Repositories.NamespaceDoc">
+            <summary>
+            The Namespace <c>Infrastructure.Repositories</c> is responsible for managing
+            access to all data for the application through the concrete implementations
+            of the Repositories defined in the <see cref="N:Core.Interfaces"/> namespace.
+            </summary>
+            <remarks>
+            <para>
+            The repositories are kept separate to ensure good separation of concerns, 
+            and ensure that each repository focuses only on operation for each type
+            of data, therefore adhearing to the Single Responsibility Principle.
+            </para>
+            <para>
+            The <c>Infrastructure</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with cross cutting concerns.
+            </para>
+            <para>
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            </para>
+            <para>
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </para>
+            </remarks>
+        </member>
         <member name="T:Infrastructure.Repositories.SearchRepository">
             <summary>
             Concrete inplmenetation of the <see cref="T:Core.Interfaces.ISearchRepository"/> interface.
             It is responsible for access to the Search Criteria, as well as controlling the loading and 
             persistance of the search criteria to the local storage file.
             </summary>
+            <remarks>
+            The Searches and Searchtypes are returned from two methods, which return IEnumerable collections of the
+            <see cref="T:Core.Model.SearchCriteria"/> and <c>String</c> respectively, which supports the use of
+            Linq to Objects.
+            It also makes use of the UnitOfWork pattern through implementing the <see cref="T:Core.Interfaces.ISearchUnitOfWork"/>
+            interface combined with Lifetime management of the class through the Unity IoC.  This ensures that the 
+            data is always retrieved from the same instance of the <see cref="T:Infrastructure.Data.SearchData"/> class.
+            </remarks>
         </member>
         <member name="M:Infrastructure.Repositories.SearchRepository.#ctor(Core.Interfaces.ISearchUnitOfWork)">
             <summary>
@@ -366,9 +446,9 @@
         </member>
         <member name="M:Infrastructure.Repositories.SearchRepository.GetSearches">
             <summary>
-            Retrieve all searches defined
+            Gets a collection of all defined searches
             </summary>
-            <returns>collection of searches</returns>
+            <returns>A collection of searches</returns>
         </member>
         <member name="M:Infrastructure.Repositories.SearchRepository.GetSearchTypes">
             <summary>

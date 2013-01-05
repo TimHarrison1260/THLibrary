@@ -23,8 +23,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>..\Documentation\xml\Core.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -107,20 +106,25 @@
     <Compile Include="Factories\ConcreteLibraryBookFactory.cs" />
     <Compile Include="Factories\ConcreteSearchCriteriaFactory.cs" />
     <Compile Include="Factories\LibraryBookFactory.cs" />
+    <Compile Include="Factories\NamespaceDoc.cs" />
     <Compile Include="Factories\SearchCriteriaFactory.cs" />
     <Compile Include="Interfaces\ISearchUnitOfWork.cs" />
     <Compile Include="Interfaces\ISearchRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Interfaces\ILibraryRepository.cs" />
+    <Compile Include="Interfaces\NamespaceDoc.cs" />
     <Compile Include="Model\Authors.cs" />
     <Compile Include="Model\ConcreteClasses\ConcreteLibraryBook.cs" />
     <Compile Include="Model\ConcreteClasses\ConcreteSearchCriteria.cs" />
+    <Compile Include="Model\ConcreteClasses\NamespaceDoc.cs" />
     <Compile Include="Model\ISBNReferences.cs" />
     <Compile Include="Model\Keywords.cs" />
     <Compile Include="Model\LibraryBook.cs" />
+    <Compile Include="Model\NamespaceDoc.cs" />
     <Compile Include="Model\SearchCriteria.cs" />
     <Compile Include="Model\SearchTypeEnum.cs" />
     <Compile Include="Model\Titles.cs" />
+    <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

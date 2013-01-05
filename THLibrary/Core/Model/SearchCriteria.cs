@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     SearchCriteria.cs
+//Description:      Defines the Search Critera data model
+//Author:           Tim Harrison
+//Date of Creation: 00/00/00
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;     //  Allow the serialisztion to work.
@@ -6,19 +16,35 @@ using System.Xml.Serialization;     //  Allow the serialisztion to work.
 namespace Core.Model
 {
     /// <summary>
-    /// Abstract class that defines a search.
+    /// Class <c>SearchCriteria</c> is an abstract class that defines a search.
     /// </summary>
     /// <remarks>
+    /// <para>
+    /// Instances of this class are created using the <see cref="Core.Factories.SearchCriteriaFactory"/>, which
+    /// is an implementation of the Abstract Factory pattern.
+    /// </para>
+    /// <para>
+    /// This SearchCriteria class will be serialised as XML, and therefore does not need
+    /// any attributes to declare properties as serialisable, instead they
+    /// just need to be public.
+    /// 
+    /// Mark this abstract class with the XmlInclude attribute, to ensure that the concrete
+    /// implementation <see cref="Core.Model.ConcreteClasses.ConcreteSearchCriteria"/> is 
+    /// accessible within the Xml serialisation process.
+    /// </para>
+    /// <para>
     /// Implements the <c>IComparable(T)</c> interface to define a default sort sequence for any
     /// collection containing the search.
     /// Implements the <c>IEquatable(T)</c> interface to allow comparison with another instance
     /// of SearchCriteria for equality.
     /// Implements the <c>IEqualityComparer</c> to allow two instance of SearchCriteria to be
     /// compared for equality.
-    /// 
-    /// This SearchCriteria class will be serialised as XML, and therefore does not need
-    /// any attributes to declare properties as serialisable, instead they
-    /// just need to be public.
+    /// </para>
+    /// <para>
+    /// However, the use of Linq, within the repositories, rather negates the use of these standard
+    /// contracts.  They are, nevertherless, left in the class, to allow the class to be used without
+    /// Linq.
+    /// </para>
     /// </remarks>
     [XmlInclude(typeof(Core.Model.ConcreteClasses.ConcreteSearchCriteria))]
     public abstract class SearchCriteria : IComparable<SearchCriteria>,         //  Default Sort order
@@ -75,7 +101,7 @@ namespace Core.Model
 
         #region IEquatable<T> interface
         /// <summary>
-        /// Implementation of the IEquatable<> interface
+        /// Implementation of the IEquatable(T) interface
         /// </summary>
         /// <param name="other">The instance of SearchCriteria being compared to this one</param>
         /// <returns>Returns TRUE if instances are equal otherwise FALSE.</returns>
@@ -88,7 +114,7 @@ namespace Core.Model
 
         #region IEqualityComparer<T> interface
         /// <summary>
-        /// Implementation of the IEqualityComparer<> interface  Check
+        /// Implementation of the IEqualityComparer(T) interface  Check
         /// for equality between the two supplied instances of 
         /// SearchCriteria.
         /// </summary>
@@ -101,7 +127,7 @@ namespace Core.Model
         }
 
         /// <summary>
-        /// Part of the IEqualityComparer<> interface
+        /// Part of the IEqualityComparer(T) interface
         /// return a hashcode generated from the 
         /// Type, SearchString and SearchDate.  
         /// ie. the information that makes a searchCriteria

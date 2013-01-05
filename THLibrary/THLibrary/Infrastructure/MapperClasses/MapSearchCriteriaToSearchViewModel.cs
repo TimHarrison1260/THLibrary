@@ -1,8 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//***************************************************************************************************
+//Name of File:     MapSearchCriteriaToSearchViewModel.cs
+//Description:      Maps SearchCriteria class to a SearchViewModel class.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 
 using Core.Model;
 using THLibrary.DataModel;
@@ -11,7 +17,8 @@ namespace THLibrary.Infrastructure.MapperClasses
 {
     /// <summary>
     /// Static class <c>MapSearchCriteriaToSearchViewModel</c> is responsible for mapping
-    /// a SearchCriteria class to a SearchViewModel class.
+    /// a SearchCriteria class from the business model to a SearchViewModel class from the 
+    /// UI View Models..
     /// </summary>
     public static class MapSearchCriteriaToSearchViewModel
     {

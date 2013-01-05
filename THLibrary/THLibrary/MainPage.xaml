@@ -44,8 +44,7 @@
             <Setter Property="AutomationProperties.Name" Value="Reset Results"/>
             <Setter Property="Content" Value=""/>
         </Style>
-
-
+        
     </Page.Resources>
 
     <!--
@@ -54,9 +53,6 @@
         * Row 1 contains the rest of the page layout
     -->
     <Grid x:Name="GridContainer" Style="{StaticResource LayoutRootStyle}">
-        <!--<Grid.DataContext>
-            <data:LibrarySearchViewModel/>
-        </Grid.DataContext>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
             <RowDefinition Height="Auto" x:Name="searchRow"/>
@@ -105,32 +101,66 @@
         
         See 'http://forum.codecall.net/topic/72017-vs-2012-bug/#axzz2GTddwo4r' comments.
         -->
+        <StackPanel Grid.Row="2" 
+                    Grid.Column="0"
+                    Margin="-10,10,0,0"
+                    Orientation="Vertical">
+
+            <Border BorderBrush="White" BorderThickness="0,3,0,0">
+                
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Margin="130,0,0,0" Padding=" 5,0,5,0" Text="Results" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Left" ></TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Sort by: " VerticalAlignment="Bottom" Margin="30,0,0,5"></TextBlock>
+                    <RadioButton Content="Title" 
+                                 x:Name="Title"
+                                 Margin="20,0,0,0"
+                                 Checked="SelectSortSequence" 
+                                 VerticalAlignment="Bottom" 
+                                 HorizontalAlignment="Right"
+                                 IsChecked="True"/>
+                    <RadioButton Content="Author" 
+                                 x:Name="Author"
+                                 Margin="20,0,0,0"
+                                 Checked="SelectSortSequence" 
+                                 VerticalAlignment="Bottom" 
+                                 HorizontalAlignment="Right"
+                                 IsChecked="False"/>
+                </StackPanel>
+            </StackPanel>
+
+            </Border>
+
+        </StackPanel>
         
         <ListView 
-            x:Name="resultsListView"
-            Grid.Row="2"
-            ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-            Margin="-10,10,0,0"
-            Padding="120,0,0,60"
-            IsSwipeEnabled="False">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Padding="5,0,5,0" Text="{Binding Title, Mode=OneWay}"/>
-                        <TextBlock Text="{Binding Author, Mode=OneWay}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <!--ItemsSource="{Binding Books}"-->
-            <!--SelectedIndex="{Binding SelectedBookIndex,Mode=TwoWay}">-->
-            <!--ItemTemplate="{StaticResource Standard130ItemTemplate}">-->
-            <!--SelectionChanged=""-->
-        </ListView>
+                x:Name="resultsListView"
+                Grid.Row="2"
+                ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
+                Margin="10,70,0,0"
+                Padding="120,0,0,60"
+                IsSwipeEnabled="False"
+                >
+            <!--BorderBrush="White"
+                BorderThickness="0,3,3,0"-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Padding="5,0,5,0" Text="{Binding Title, Mode=OneWay}"/>
+                            <TextBlock Text="{Binding Author, Mode=OneWay}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         <ScrollViewer
             x:Name="BookScrollView"
             Grid.Row="2"
-            Grid.Column="1">
+            Grid.Column="1"
+            Margin="0,10,0,0"
+            Padding="5,10,0,0"
+            BorderBrush="White"
+            BorderThickness="0,3,0,0">
             <!-- Add the user control for the book Details -->
             <uc:BookViewer DataContext="{Binding SelectedItem, ElementName=resultsListView}" Margin="10,10,0,0"/>
             <!--<uc:BookViewer DataContext="{Binding CurrentBook}" Margin="10,10,0,0"/>-->

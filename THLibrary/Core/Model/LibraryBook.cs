@@ -1,19 +1,40 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     LibraryBook.cs
+//Description:      Defines the Library Book held within the Library
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Text;
 using System.Collections.Generic;
 
 namespace Core.Model
 {
     /// <summary>
-    /// Abstract class that defines a library book
+    /// Class <c>LibraryBook</c> is an abstract class that defines a library book.
     /// </summary>
     /// <remarks>
+    /// <para>
+    /// Instances of this class are created using the <see cref="Core.Factories.LibraryBookFactory"/>, which
+    /// is an implementation of the Abstract Factory pattern.
+    /// </para>
+    /// <para>
     /// Implements the <c>IComparable(T)</c> interface to define a default sort sequence for any
     /// collection containing the search.
     /// Implements the <c>IEquatable(T)</c> interface to allow comparison with another instance
     /// of LibraryBook for equality.
     /// Implements the <c>IEqualityComparer</c> to allow two instance of LibraryBook to be
     /// compared for equality.
+    /// </para>
+    /// <para>
+    /// However, the use of Linq, within the repositories, rather negates the use of these standard
+    /// contracts.  They are, nevertherless, left in the class, to allow the class to be used without
+    /// Linq.
+    /// </para>
     /// </remarks>
     public abstract class LibraryBook : IComparable<LibraryBook>,
                                         IEquatable<LibraryBook>,
@@ -40,7 +61,7 @@ namespace Core.Model
         /// associated with the book
         /// </summary>
         /// <remarks>
-        /// Useing a List<> to hold the keywords so 
+        /// Using a List(string) to hold the keywords so 
         /// that they can be referenced individually
         /// and by and index.  A dictionary is not
         /// appropriate as we just need a list of
@@ -70,8 +91,8 @@ namespace Core.Model
         /// <summary>
         /// Implementation of the IEquatable interface.
         /// </summary>
-        /// <param name="other">The instance of the LibraryBook being compared to this one</param>
-        /// <returns>Return TRUE if they are equal otherwise FALSE.</returns>
+        /// <param name="other">The instance of the LibraryBook being compared to this one.</param>
+        /// <returns>Returns TRUE if they are equal otherwise FALSE.</returns>
         public bool Equals(LibraryBook other)
         {
             return AreEqual(this, other);
@@ -82,7 +103,7 @@ namespace Core.Model
 
         #region IEqualityComparer<T> interface
         /// <summary>
-        /// Implementation of the IEqualityComparer<> interface.  Check
+        /// Implementation of the IEqualityComparer(T) interface.  Check
         /// for equality between the two supplied instances of 
         /// LibraryBook.
         /// </summary>
@@ -95,7 +116,7 @@ namespace Core.Model
         }
 
         /// <summary>
-        /// Implementation of IEqualityComparer<> interface.  Generates
+        /// Implementation of IEqualityComparer(T) interface.  Generates
         /// a HashCode for the instance of LibraryBook, from the
         /// ISBN, Title and Author.
         /// ie. the information that makes a LibraryBook
@@ -120,8 +141,8 @@ namespace Core.Model
         /// equality.  They are deemed equal if the 
         /// ISBN, Title and Author are the same.
         /// </summary>
-        /// <param name="s1">The first instance of LibraryBook</param>
-        /// <param name="s2">The second instance of LibraryBook</param>
+        /// <param name="b1">The first instance of LibraryBook</param>
+        /// <param name="b2">The second instance of LibraryBook</param>
         /// <returns>Return TRUE if they are equal otherwise FALSE.</returns>
         private bool AreEqual(LibraryBook b1, LibraryBook b2)
         {

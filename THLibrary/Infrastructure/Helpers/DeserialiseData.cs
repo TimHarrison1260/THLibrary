@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     DeserialiseData.cs
+//Description:      Deserialises the CVS Library data into the LibraryBook class.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +23,11 @@ namespace Infrastructure.Helpers
     /// Static class <c>DeserialiseData</c> is responsible for converting
     /// the CSV data file into a LibraryBook class instanc.
     /// </summary>
+    /// <remarks>
+    /// The ToBook method accepts a concrete instance of the <see cref="Core.Factories.LibraryBookFactory"/>
+    /// which is used to create the instance of the <see cref="Core.Model.LibraryBook"/> class for each
+    /// record read from the CSV file.
+    /// </remarks>
     public static class DeserialiseData
     {
         /// <summary>

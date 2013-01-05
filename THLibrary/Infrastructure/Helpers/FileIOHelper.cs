@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     FileIOHelper.cs
+//Description:      General routines providing access to the File system.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,7 +72,7 @@ namespace Infrastructure.Helpers
         /// Returns a collection of file names for all files within the specified storage folder (Overloaded).
         /// </summary>
         /// <param name="Folder">The instance of StorageFolder containing the list of files.</param>
-        /// <returns></returns>
+        /// <returns>Colliection (List(string)) of File names.</returns>
         public static async Task<IList<string>> GetFileNames(StorageFolder Folder)
         {
             //  Set the default parentFolder to the LocalFolder, if not defilned.

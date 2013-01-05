@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿//***************************************************************************************************
+//Name of File:     CurrentSearchviewer.xaml.cs
+//Description:      Code behind the CurrentSearchViewer Custom control
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 using THLibrary.DataModel;
 using THLibrary.Infrastructure.EventArguments;
@@ -20,21 +21,25 @@ using THLibrary.Infrastructure.EventArguments;
 namespace THLibrary.CustomControls
 {
     /// <summary>
-    /// Partial class <c>CurrentSearchViewer</c> is responsible for maintaing and
+    /// User Control class <c>CurrentSearchViewer</c> is responsible for maintaing and
     /// displaying the Search criteria for the app.
     /// This is the code behind which supports the Xaml, responsible for displaying
     /// and controlling the layout of the Custom control.
     /// </summary>
+    /// <remarks>
+    /// The public event <c>ExecuteSearch</c> is raised when the Search button is clicked
+    /// and passes the current search in the <see cref="THLibrary.Infrastructure.EventArguments.SearchEventArgs"/>.
+    /// </remarks>
     public sealed partial class CurrentSearchViewer : UserControl
     {
         /// <summary>
-        /// Public Event <code>ExecuteSearch</code> which is raised
+        /// Public Event <c>ExecuteSearch</c> which is raised
         /// when the SearchButton is clicked.
         /// </summary>
         public event EventHandler<SearchEventArgs> ExecuteSearch;
 
         /// <summary>
-        /// Public, parameterless constructor of the <code>CurrentSearchViewer</code>
+        /// Public, parameterless constructor of the <c>CurrentSearchViewer</c>
         /// which is a Custom Control.
         /// </summary>
         public CurrentSearchViewer()
@@ -48,8 +53,8 @@ namespace THLibrary.CustomControls
         /// the search criteria, which are then passed to the ExecuteSearch event in 
         /// the <see cref="THLibrary.Infrastructure.EventArguments.SearchEventArgs"/>.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object raising the event</param>
+        /// <param name="e">Arguments for the event</param>
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             //  Create the search Criteria
@@ -74,8 +79,8 @@ namespace THLibrary.CustomControls
         /// separating the values with a '|' character.
         /// This allows multiple search criteria to be submitted within a search
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Instance of the Combobox containing the seearchable values</param>
+        /// <param name="e">SelectionChange arguments for the combobox</param>
         /// <remarks>
         /// All possible collections of Searchable values have a "Select....." as the
         /// first item.  This is not selectable and allows us to avoid placing the first
@@ -118,17 +123,17 @@ namespace THLibrary.CustomControls
         }
 
         /// <summary>
-        /// 
+        /// Method <c>cbSearchType_SelectionChanged</c> handles the selectionChanged event
+        /// It ensures that the SearchableValues combobox points to the first item.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Instance of the SearchableValues combobox.</param>
+        /// <param name="e">Selectionchanged event arguments.</param>
         private void cbSearchType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count() == 1 && e.RemovedItems.Count() != 0)
             {
                 //  Ensure the Searchable values are reset to the "select' message.
                 this.cbSearchSelector.SelectedIndex = 0;
-
             }
         }
     }

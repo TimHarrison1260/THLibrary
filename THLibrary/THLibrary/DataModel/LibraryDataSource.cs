@@ -1,9 +1,17 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     LibraryDataSource.cs
+//Description:      The Main ViewModel for the Main Page.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Core.Interfaces;
 using Core.Factories;
@@ -17,20 +25,29 @@ namespace THLibrary.DataModel
     /// of this single page Library Search application.
     /// </summary>
     /// <remarks>
-    /// 
+    /// <para>
+    /// It contains a Private static instance of itself, which is the standard pattern for 
+    /// use with a datasource to ensure a singleton as described in the MS Windows Store 
+    /// App documentation.
+    /// </para>
+    /// <para>
+    /// It allows for a design instance which makes data available at design time so that
+    /// the pages look "realistic" when being coded.
+    /// </para>
     /// </remarks>
     public class LibraryDataSource
     {
         //  Instances of the repositories to access the underlying Data Model are required.
         //
         //  Feeling is that this should be done through property injection instead of referencing
-        //  properties of the main App.xaml class.
+        //  properties of the main App.xaml class.  Unity doesn't appear to allow this at the moment.
         private readonly ILibraryRepository _libraryRepository = (App.Current as App).LibraryRepository;
         private readonly ISearchRepository _searchRepository = (App.Current as App).SearchRepository;
         private readonly IUnityContainer _ioc = (App.Current as App).IoCContainer;
 
         /// <summary>
-        /// ctor: set up the temporary data for the view model.
+        /// Constructor for the class.  It loads the data from the CSV file through the Library Repository
+        /// and the searches using the Search Repository.
         /// </summary>
         public LibraryDataSource()
         {
@@ -38,7 +55,6 @@ namespace THLibrary.DataModel
             LoadData();
             //SetUpTestData();
         }
-
 
         /// <summary>
         /// Singleton: This creates a singleton instance of this class.
@@ -50,21 +66,30 @@ namespace THLibrary.DataModel
         private static LibraryDataSource _libraryDataSource = new LibraryDataSource();
 
 
+        private BookSortEnum _currentSortSequence = BookSortEnum.Title;
+        /// <summary>
+        /// Gets the Enumeration that defines the possible sort sequences of the search results.
+        /// </summary>
+        public BookSortEnum CurrentSortSequence
+        {
+            get { return _currentSortSequence; }
+        }
+
+
         #region View Model Main Properties
 
         private ObservableCollection<BookViewModel> _allBooks = new ObservableCollection<BookViewModel>();
         /// <summary>
-        /// 
+        /// Gets the ObservableCollection of Library Books.  It contains all books in the library
         /// </summary>
         public ObservableCollection<BookViewModel> AllBooks
         {
             get { return this._allBooks; }
-//            set { this._allBooks = value; }
         }
 
         private ObservableCollection<SearchViewModel> _allSearches = new ObservableCollection<SearchViewModel>();
         /// <summary>
-        /// 
+        /// Gets the ObservableCollection of all defined searches.
         /// </summary>
         public ObservableCollection<SearchViewModel> AllSearches
         {
@@ -73,7 +98,7 @@ namespace THLibrary.DataModel
 
         private CurrentSearchViewModel _currentSearch = new CurrentSearchViewModel();
         /// <summary>
-        /// 
+        /// Gets the search defined as the Current search.
         /// </summary>
         public CurrentSearchViewModel CurrentSearch
         {
@@ -82,7 +107,7 @@ namespace THLibrary.DataModel
 
         private ObservableCollection<SearchTypesViewModel> _searchTypes = new ObservableCollection<SearchTypesViewModel>();
         /// <summary>
-        /// 
+        /// Gets the ObservableColection of possible SearchTypes.
         /// </summary>
         public ObservableCollection<SearchTypesViewModel> SearchTypes
         {
@@ -95,31 +120,41 @@ namespace THLibrary.DataModel
         #region Books View Model
 
         /// <summary>
-        /// 
+        /// Returns a collection of Books sorted according to the current sort, which
+        /// is either by Title or by Author name.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Sorted collection of Books.</returns>
         public static IEnumerable<BookViewModel> GetBooks()
         {
-            return _libraryDataSource.AllBooks;
+            return GetBooks(_libraryDataSource.CurrentSortSequence);
         }
-
+        
         /// <summary>
-        /// 
+        /// Returns a collection of Books sorted according to the specified sort sequence.
         /// </summary>
-        /// <param name="uniqueId"></param>
-        /// <returns></returns>
-        public static BookViewModel GetBook(string uniqueId)
+        /// <param name="sequence">The Sort sequence</param>
+        /// <returns>Sorted collection of Books</returns>
+        public static IEnumerable<BookViewModel> GetBooks(BookSortEnum sequence)
         {
-            var books = _libraryDataSource.AllBooks.Where(x => x.UniqueId == uniqueId);
-            if (books.Count() == 1) return books.First();
-            return null;
+            IEnumerable<BookViewModel> sortedBooks = new List<BookViewModel>();
+            switch (sequence)
+            {
+                case BookSortEnum.Title:
+                    sortedBooks = _libraryDataSource.AllBooks.OrderBy(x => x.Title);
+                    break;
+                case BookSortEnum.Author:
+                    sortedBooks = _libraryDataSource.AllBooks.OrderBy(x => x.Author);
+                    break;
+            }
+            return sortedBooks;
         }
 
         /// <summary>
-        /// 
+        /// Returns a collection of Books that match the specified search criteria, and 
+        /// sorted according to the current sort sequence.
         /// </summary>
-        /// <param name="criteria"></param>
-        /// <returns></returns>
+        /// <param name="criteria">The criteria use to match the bolks.</param>
+        /// <returns>Sorted collection of matching Books.</returns>
         public static IEnumerable<BookViewModel> GetMatchingBooks(SearchViewModel criteria)
         {
             //  Return empty list if search criteria not specified.
@@ -137,15 +172,21 @@ namespace THLibrary.DataModel
 
             //  Call the repository, SearchBooks()
             var allBooks = _libraryDataSource._libraryRepository.SearchBooks(searchCriteria);
+
             foreach (var book in allBooks)
             {
                 _libraryDataSource.AllBooks.Add(MapLibraryBookToBookViewModel.Map(book));
             }
-
-            return _libraryDataSource.AllBooks;
+            
+            //  Call the GetBooks method as this will invoke the current sort for the results.
+            return GetBooks();
         }
 
-
+        /// <summary>
+        /// Gets a collection of books, containing all books in the library, sorted according
+        /// to the current sort sequence.
+        /// </summary>
+        /// <returns>A sorted collection of books</returns>
         public static IEnumerable<BookViewModel> ResetAllBooks()
         {
             //  Clear out any existing books.
@@ -157,7 +198,18 @@ namespace THLibrary.DataModel
                 _libraryDataSource.AllBooks.Add(MapLibraryBookToBookViewModel.Map(book));
             }
 
-            return _libraryDataSource.AllBooks;
+            //  Call the GetBooks method as this will invoke the current sort for the results.
+            return GetBooks();
+        }
+
+        /// <summary>
+        /// Sets the current sort sequence for displaying the list of books, as specified
+        /// by the <see cref="THLibrary.DataModel.BookSortEnum"/> enumeration.
+        /// </summary>
+        /// <param name="sequence">The Sort Sequence to be set.</param>
+        public static void SetSortSequence(BookSortEnum sequence)
+        {
+            _libraryDataSource._currentSortSequence = sequence;
         }
 
         #endregion
@@ -166,9 +218,9 @@ namespace THLibrary.DataModel
         #region Searches view Model
 
         /// <summary>
-        /// 
+        /// Returns a collection of Defined Searches
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A Collection of searches</returns>
         public static IEnumerable<SearchViewModel> GetSearches()
         {
             return _libraryDataSource.AllSearches;
@@ -179,12 +231,15 @@ namespace THLibrary.DataModel
         /// </summary>
         /// <returns>An IEnumerable(CurrentSearchViewModel) containing the current Search</returns>
         /// <remarks>
+        /// <para>
         /// This returns a collection instead of a single instance to avoid an "index out of range"
         /// exception caused when a single instance is returned.  As the value is returned from a
         /// method, the inbuilt framework for the Windows Store App seems to expect a collection.
-        /// 
+        /// </para>
+        /// <para>
         /// Further investigation is required to resolve this, as it cannot be the case that all
         /// datasource models added to the DefaultViewModel must be collections.
+        /// </para>
         /// </remarks>
         public static IEnumerable<CurrentSearchViewModel> GetCurrentSearch()
         {
@@ -196,18 +251,18 @@ namespace THLibrary.DataModel
         }
 
         /// <summary>
-        /// 
+        /// Returns and Observablecollection of SearchTypes.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A Collection of SearchTypes</returns>
         public static ObservableCollection<SearchTypesViewModel> GetSearchTypes()
         {
             return _libraryDataSource.SearchTypes;
         }
 
         /// <summary>
-        /// 
+        /// Adds the search contained in the CurrentSearchviewModel to the collection of Searches.
         /// </summary>
-        /// <param name="newSearch"></param>
+        /// <param name="newSearch">The CurrentSearchViewModel</param>
         public static void AddSearch(CurrentSearchViewModel newSearch)
         {
             //  Map the SearchViewModel to the SearchCriteria.
@@ -247,19 +302,6 @@ namespace THLibrary.DataModel
             {
                 this.AllSearches.Add(MapSearchCriteriaToSearchViewModel.Map(search));
             }
-
-            //  Load _searchTypes   (get the SarchTypesEnum as an array of names)
-            //  Load a "Select" message as the first entry in the SearchTypes.
-            //SearchTypesViewModel type = new SearchTypesViewModel()
-            //{
-            //    Type = "Select a Type...",
-            //    Values = new ObservableCollection<string>()
-            //    {
-            //        " "
-            //    }
-            //};
-            //this.CurrentSearch.SearchTypes.Add(type);
-            //this.SearchTypes.Add(type);
 
             var searchTypes = _searchRepository.GetSearchTypes();
             foreach (var searchType in searchTypes)
@@ -314,11 +356,12 @@ namespace THLibrary.DataModel
                 this.CurrentSearch.SelectedTypeValueIndex = 0;
             }
 
-
+            //  Set the default sort sequence for display, which is by Title
+            this._currentSortSequence = BookSortEnum.Title;
         }
 
         /// <summary>
-        /// Mtehod <c>SetUpTestData</c> load the view model with temporary data.
+        /// Method <c>SetUpTestData</c> load the view model with temporary data.
         /// </summary>
         private void SetUpTestData()
         {   

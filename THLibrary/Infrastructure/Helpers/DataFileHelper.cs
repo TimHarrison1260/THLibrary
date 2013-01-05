@@ -1,4 +1,14 @@
-﻿using System.Threading.Tasks;       //  Async stuff.
+﻿//***************************************************************************************************
+//Name of File:     DataFileHelper.cs
+//Description:      Gets the CSV data file for the Library data.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System.Threading.Tasks;       //  Async stuff.
 using Windows.Storage;              //  Storage stuff.
 
 namespace Infrastructure.Helpers

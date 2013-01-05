@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     Library.cs
+//Description:      Hold the library data in memory
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 
 using System.IO;                    //  IO streams.
@@ -11,11 +21,13 @@ namespace Infrastructure.Data
 {
     /// <summary>
     /// Class <c>Library</c> is responsible for holding all data
-    /// relevent to the library; namely the Books.
+    /// relevent to the library; namely the Books.  It is accessed via the 
+    /// <see cref="Infrastructure.Repositories.LibraryRepository"/>.
     /// It also contains the references to the Keywords, Authors,
     /// Titles and ISBN references in the library.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This class holds a collection of the individual <see cref="Core.Model.LibraryBook"/> classes.
     /// The collection is exposes as a <c>Public</c> property and is held as a generic List of type
     /// <c>LibraryBook</c>.  The List(T) collection is used to facilitate working with Linq from 
@@ -24,8 +36,12 @@ namespace Infrastructure.Data
     /// individually.  However, the use of Linq will negate some of the index access requirements.
     /// The other generic collection types offer very specific type of access and data structures which 
     /// are not the most appropriate here.
+    /// </para>
+    /// <para>
     /// Makes use of the UnitOfWork pattern through implementing the <see cref="Core.Interfaces.IUnitOfWork"/>
-    /// interface combined with Lifetime management of the class through the Unity IoC.
+    /// interface combined with Lifetime management of the class through the Unity IoC.  this ensure that the 
+    /// same instance of data is always accessed.
+    /// </para>
     /// </remarks>
     public class Library : IUnitOfWork
     {

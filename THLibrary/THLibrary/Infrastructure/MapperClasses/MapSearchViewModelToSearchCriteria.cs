@@ -1,8 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//***************************************************************************************************
+//Name of File:     MapSearchViewModelToSearchCriteria.cs
+//Description:      Maps SearchViewModel class to a SearchCriteria class.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 
 using Core.Factories;
 using Core.Model;
@@ -12,11 +18,17 @@ namespace THLibrary.Infrastructure.MapperClasses
 {
     /// <summary>
     /// A Generic class <c>MapSearchViewModelToSearchCriteria</c> is responsible for mapping
-    /// a SearchViewModel class to a SearchCriteria class.  It also works for the CurrentSearchViewModel
-    /// as it is generic and the CurrentSearchViewModel derives from SearchViewmodel.
+    /// a SearchViewModel class From the UI to a SearchCriteria class of the Business model.  
     /// </summary>
+    /// <typeparam name="T">SearchViewMode class or class derived from SearchViewModel</typeparam>
     /// <remarks>
+    /// <para>
+    /// It also works for the CurrentSearchViewModel as it is generic and the 
+    /// CurrentSearchViewModel derives from SearchViewmodel.
+    /// </para>
+    /// <para>
     /// This class is not static so that we can inject a dependency in the constructor
+    /// </para>
     /// </remarks>
     public class MapSearchViewModelToSearchCriteria<T> where T : SearchViewModel
     {

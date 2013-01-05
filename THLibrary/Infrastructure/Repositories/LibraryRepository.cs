@@ -1,8 +1,16 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     LibraryRepository.cs
+//Description:      Controls access to the Library data.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Core.Interfaces;
 using Core.Model;
@@ -11,7 +19,7 @@ using Infrastructure.Data;
 namespace Infrastructure.Repositories
 {
     /// <summary>
-    /// Concrete inplmenetation of the <see cref="Core.Interfaces.ILibraryRepository"/> interface.
+    /// Concrete implmenetation of the <see cref="Core.Interfaces.ILibraryRepository"/> interface.
     /// It is responsible for access to the library contents, as well as controlling the loading of
     /// the library information from the CSV source file.
     /// </summary>
@@ -28,17 +36,6 @@ namespace Infrastructure.Repositories
             if (UnitOfWork == null)
                 throw new ArgumentNullException("UnitOfWork", "No UnitOWork supplied to LibraryRepository");
             _unitOfWork = UnitOfWork as Library;
-        }
-
-        /// <summary>
-        /// Gets a library book for the specified ISBN reference.
-        /// NOT REQUIRED, We'll be using linq to get search results.
-        /// </summary>
-        /// <param name="ISBN">ISBN reference</param>
-        /// <returns>Instance of LibraryBook</returns>
-        public LibraryBook GetBook(string ISBN)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

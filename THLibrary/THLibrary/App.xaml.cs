@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     App.xaml..cs
+//Description:      Code behind the Application start module.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -149,16 +159,5 @@ namespace THLibrary
             deferral.Complete();
         }
 
-        //private async void SaveSearches(string filename, IEnumerable<Core.Model.SearchCriteria> Searches)
-        //{
-        //    //  Get the handle to the searches data file.
-        //    _searchesDataFile = _searchRepository.GetFileHandle();
-        //    //  Serialise the searches to xml and srite to the data file.
-        //    using (StreamWriter writer = new StreamWriter(await _searchesDataFile.OpenStreamForWriteAsync()))
-        //    {
-        //        XmlSerializer serialiser = new XmlSerializer(typeof(List<SearchCriteria>));
-        //        serialiser.Serialize(writer, Searches);
-        //    }
-        //}
     }
 }

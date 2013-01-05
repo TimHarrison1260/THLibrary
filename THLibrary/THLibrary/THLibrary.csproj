@@ -15,7 +15,7 @@
     <PackageCertificateKeyFile>THLibrary_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Documentation\xml\THLibrary.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -107,6 +108,7 @@
     <Compile Include="Common\BooleanNegationConverter.cs" />
     <Compile Include="Common\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\LayoutAwarePage.cs" />
+    <Compile Include="Common\NamespaceDoc.cs" />
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="CustomControls\BookViewer.xaml.cs">
@@ -115,21 +117,28 @@
     <Compile Include="CustomControls\CurrentSearchViewer.xaml.cs">
       <DependentUpon>CurrentSearchViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\NamespaceDoc.cs" />
+    <Compile Include="DataModel\BookSortEnum.cs" />
     <Compile Include="DataModel\BookViewModel.cs" />
     <Compile Include="DataModel\CurrentSearchViewModel.cs" />
     <Compile Include="DataModel\LibraryDataSource.cs" />
+    <Compile Include="DataModel\NamespaceDoc.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
     <Compile Include="DataModel\SearchTypesViewModel.cs" />
     <Compile Include="DataModel\SearchViewModel.cs" />
+    <Compile Include="Infrastructure\EventArguments\NamespaceDoc.cs" />
     <Compile Include="Infrastructure\EventArguments\SearchEventArgs.cs" />
     <Compile Include="Infrastructure\MapperClasses\MapLIbraryBooksToBookViewModelCollection.cs" />
     <Compile Include="Infrastructure\MapperClasses\MapLibraryBookToBookViewModel.cs" />
     <Compile Include="Infrastructure\MapperClasses\MapSearchCriteriaToSearchViewModel.cs" />
     <Compile Include="Infrastructure\MapperClasses\MapSearchViewModelToSearchCriteria.cs" />
+    <Compile Include="Infrastructure\MapperClasses\NamespaceDoc.cs" />
+    <Compile Include="Infrastructure\Unity\NamespaceDoc.cs" />
     <Compile Include="Infrastructure\Unity\UnityConfiguration.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

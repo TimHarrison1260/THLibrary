@@ -1,0 +1,1210 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>THLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:THLibrary.App">
+            <summary>
+            Provides application-specific behavior to supplement the default Application class.
+            </summary>
+            <remarks>
+            MS Unity is used to provide Dependency Injection into the various classes where
+            required.  The container has to be exposed through a property the xaml based UI
+            and code behind does not support parameterless constructors and we can therefore
+            not inject the dependencies directly.
+            This workaround applies to the Repository instances also.  
+            Further investigation must be done to see how to implement Di through properties
+            to see if that is a better option and could remove the need to expose the instance
+            through Public properties of the App class.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.App.#ctor">
+            <summary>
+            Initializes the singleton application object.  This is the first line of authored code
+            executed, and as such is the logical equivalent of main() or WinMain().
+            </summary>
+        </member>
+        <member name="M:THLibrary.App.OnLaunched(Windows.ApplicationModel.Activation.LaunchActivatedEventArgs)">
+            <summary>
+            Invoked when the application is launched normally by the end user.  Other entry points
+            will be used when the application is launched to open a specific file, to display
+            search results, and so forth.
+            </summary>
+            <param name="args">Details about the launch request and process.</param>
+        </member>
+        <member name="M:THLibrary.App.OnSuspending(System.Object,Windows.ApplicationModel.SuspendingEventArgs)">
+            <summary>
+            Invoked when application execution is being suspended.  Application state is saved
+            without knowing whether the application will be terminated or resumed with the contents
+            of memory still intact.
+            </summary>
+            <param name="sender">The source of the suspend request.</param>
+            <param name="e">Details about the suspend request.</param>
+        </member>
+        <member name="P:THLibrary.App.IoCContainer">
+            <summary>
+            Gets the instance of the IoC Container for resolbing the dependencies within
+            each module.  It uses MS Unity as the Dependency Resolbr.
+            </summary>
+        </member>
+        <member name="P:THLibrary.App.LibraryRepository">
+            <summary>
+            Gets the instance of the LibraryRepository for access to the underlying 
+            data model: specifically the Library Book data.
+            </summary>
+        </member>
+        <member name="P:THLibrary.App.SearchRepository">
+            <summary>
+            Gets the instance of the SearchRepository for access to the underlying
+            data model: specifically the Search Data.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.BindableBase">
+            <summary>
+            Implementation of <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> to simplify models.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.BindableBase.SetProperty``1(``0@,``0,System.String)">
+            <summary>
+            Checks if a property already matches a desired value.  Sets the property and
+            notifies listeners only when necessary.
+            </summary>
+            <typeparam name="T">Type of the property.</typeparam>
+            <param name="storage">Reference to a property with both getter and setter.</param>
+            <param name="value">Desired value for the property.</param>
+            <param name="propertyName">Name of the property used to notify listeners.  This
+            value is optional and can be provided automatically when invoked from compilers that
+            support CallerMemberName.</param>
+            <returns>True if the value was changed, false if the existing value matched the
+            desired value.</returns>
+        </member>
+        <member name="M:THLibrary.Common.BindableBase.OnPropertyChanged(System.String)">
+            <summary>
+            Notifies listeners that a property value has changed.
+            </summary>
+            <param name="propertyName">Name of the property used to notify listeners.  This
+            value is optional and can be provided automatically when invoked from compilers
+            that support <see cref="T:System.Runtime.CompilerServices.CallerMemberNameAttribute"/>.</param>
+        </member>
+        <member name="E:THLibrary.Common.BindableBase.PropertyChanged">
+            <summary>
+            Multicast event for property change notifications.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.BooleanNegationConverter">
+            <summary>
+            Value converter that translates true to false and vice versa.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.BooleanToVisibilityConverter">
+            <summary>
+            Value converter that translates true to <see cref="F:Windows.UI.Xaml.Visibility.Visible"/> and false to
+            <see cref="F:Windows.UI.Xaml.Visibility.Collapsed"/>.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.LayoutAwarePage">
+            <summary>
+            Typical implementation of Page that provides several important conveniences:
+            <list type="bullet">
+            <item>
+            <description>Application view state to visual state mapping</description>
+            </item>
+            <item>
+            <description>GoBack, GoForward, and GoHome event handlers</description>
+            </item>
+            <item>
+            <description>Mouse and keyboard shortcuts for navigation</description>
+            </item>
+            <item>
+            <description>State management for navigation and process lifetime management</description>
+            </item>
+            <item>
+            <description>A default view model</description>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="F:THLibrary.Common.LayoutAwarePage.DefaultViewModelProperty">
+            <summary>
+            Identifies the <see cref="P:THLibrary.Common.LayoutAwarePage.DefaultViewModel"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:THLibrary.Common.LayoutAwarePage"/> class.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.GoHome(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Invoked as an event handler to navigate backward in the page's associated
+            <see cref="T:Windows.UI.Xaml.Controls.Frame"/> until it reaches the top of the navigation stack.
+            </summary>
+            <param name="sender">Instance that triggered the event.</param>
+            <param name="e">Event data describing the conditions that led to the event.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.GoBack(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Invoked as an event handler to navigate backward in the navigation stack
+            associated with this page's <see cref="T:Windows.UI.Xaml.Controls.Frame"/>.
+            </summary>
+            <param name="sender">Instance that triggered the event.</param>
+            <param name="e">Event data describing the conditions that led to the
+            event.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.GoForward(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Invoked as an event handler to navigate forward in the navigation stack
+            associated with this page's <see cref="T:Windows.UI.Xaml.Controls.Frame"/>.
+            </summary>
+            <param name="sender">Instance that triggered the event.</param>
+            <param name="e">Event data describing the conditions that led to the
+            event.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.CoreDispatcher_AcceleratorKeyActivated(Windows.UI.Core.CoreDispatcher,Windows.UI.Core.AcceleratorKeyEventArgs)">
+            <summary>
+            Invoked on every keystroke, including system keys such as Alt key combinations, when
+            this page is active and occupies the entire window.  Used to detect keyboard navigation
+            between pages even when the page itself doesn't have focus.
+            </summary>
+            <param name="sender">Instance that triggered the event.</param>
+            <param name="args">Event data describing the conditions that led to the event.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.CoreWindow_PointerPressed(Windows.UI.Core.CoreWindow,Windows.UI.Core.PointerEventArgs)">
+            <summary>
+            Invoked on every mouse click, touch screen tap, or equivalent interaction when this
+            page is active and occupies the entire window.  Used to detect browser-style next and
+            previous mouse button clicks to navigate between pages.
+            </summary>
+            <param name="sender">Instance that triggered the event.</param>
+            <param name="args">Event data describing the conditions that led to the event.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.StartLayoutUpdates(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Invoked as an event handler, typically on the <see cref="E:Windows.UI.Xaml.FrameworkElement.Loaded"/>
+            event of a <see cref="T:Windows.UI.Xaml.Controls.Control"/> within the page, to indicate that the sender should
+            start receiving visual state management changes that correspond to application view
+            state changes.
+            </summary>
+            <param name="sender">Instance of <see cref="T:Windows.UI.Xaml.Controls.Control"/> that supports visual state
+            management corresponding to view states.</param>
+            <param name="e">Event data that describes how the request was made.</param>
+            <remarks>The current view state will immediately be used to set the corresponding
+            visual state when layout updates are requested.  A corresponding
+            <see cref="E:Windows.UI.Xaml.FrameworkElement.Unloaded"/> event handler connected to
+            <see cref="M:THLibrary.Common.LayoutAwarePage.StopLayoutUpdates(System.Object,Windows.UI.Xaml.RoutedEventArgs)"/> is strongly encouraged.  Instances of
+            <see cref="T:THLibrary.Common.LayoutAwarePage"/> automatically invoke these handlers in their Loaded and
+            Unloaded events.</remarks>
+            <seealso cref="M:THLibrary.Common.LayoutAwarePage.DetermineVisualState(Windows.UI.ViewManagement.ApplicationViewState)"/>
+            <seealso cref="M:THLibrary.Common.LayoutAwarePage.InvalidateVisualState"/>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.StopLayoutUpdates(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Invoked as an event handler, typically on the <see cref="E:Windows.UI.Xaml.FrameworkElement.Unloaded"/>
+            event of a <see cref="T:Windows.UI.Xaml.Controls.Control"/>, to indicate that the sender should start receiving
+            visual state management changes that correspond to application view state changes.
+            </summary>
+            <param name="sender">Instance of <see cref="T:Windows.UI.Xaml.Controls.Control"/> that supports visual state
+            management corresponding to view states.</param>
+            <param name="e">Event data that describes how the request was made.</param>
+            <remarks>The current view state will immediately be used to set the corresponding
+            visual state when layout updates are requested.</remarks>
+            <seealso cref="M:THLibrary.Common.LayoutAwarePage.StartLayoutUpdates(System.Object,Windows.UI.Xaml.RoutedEventArgs)"/>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.DetermineVisualState(Windows.UI.ViewManagement.ApplicationViewState)">
+            <summary>
+            Translates <see cref="T:Windows.UI.ViewManagement.ApplicationViewState"/> values into strings for visual state
+            management within the page.  The default implementation uses the names of enum values.
+            Subclasses may override this method to control the mapping scheme used.
+            </summary>
+            <param name="viewState">View state for which a visual state is desired.</param>
+            <returns>Visual state name used to drive the
+            <see cref="T:Windows.UI.Xaml.VisualStateManager"/></returns>
+            <seealso cref="M:THLibrary.Common.LayoutAwarePage.InvalidateVisualState"/>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.InvalidateVisualState">
+            <summary>
+            Updates all controls that are listening for visual state changes with the correct
+            visual state.
+            </summary>
+            <remarks>
+            Typically used in conjunction with overriding <see cref="M:THLibrary.Common.LayoutAwarePage.DetermineVisualState(Windows.UI.ViewManagement.ApplicationViewState)"/> to
+            signal that a different value may be returned even though the view state has not
+            changed.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs)">
+            <summary>
+            Invoked when this page is about to be displayed in a Frame.
+            </summary>
+            <param name="e">Event data that describes how this page was reached.  The Parameter
+            property provides the group to be displayed.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs)">
+            <summary>
+            Invoked when this page will no longer be displayed in a Frame.
+            </summary>
+            <param name="e">Event data that describes how this page was reached.  The Parameter
+            property provides the group to be displayed.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.LoadState(System.Object,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Populates the page with content passed during navigation.  Any saved state is also
+            provided when recreating a page from a prior session.
+            </summary>
+            <param name="navigationParameter">The parameter value passed to
+            <see cref="M:Windows.UI.Xaml.Controls.Frame.Navigate(System.Type,System.Object)"/> when this page was initially requested.
+            </param>
+            <param name="pageState">A dictionary of state preserved by this page during an earlier
+            session.  This will be null the first time a page is visited.</param>
+        </member>
+        <member name="M:THLibrary.Common.LayoutAwarePage.SaveState(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Preserves state associated with this page in case the application is suspended or the
+            page is discarded from the navigation cache.  Values must conform to the serialization
+            requirements of <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.
+            </summary>
+            <param name="pageState">An empty dictionary to be populated with serializable state.</param>
+        </member>
+        <member name="P:THLibrary.Common.LayoutAwarePage.DefaultViewModel">
+            <summary>
+            An implementation of <see cref="T:Windows.Foundation.Collections.IObservableMap`2"/> designed to be
+            used as a trivial view model.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.LayoutAwarePage.ObservableDictionary`2">
+            <summary>
+            Implementation of IObservableMap that supports reentrancy for use as a default view
+            model.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary.Common</c> is automatically generated when 
+            the project is created from the VS2012 Windows Store App Template.
+            </summary>
+            <remarks>
+            The only documentation in this namespace is that created by the template.
+            </remarks>
+        </member>
+        <member name="T:THLibrary.Common.RichTextColumns">
+            <summary>
+            Wrapper for <see cref="T:Windows.UI.Xaml.Controls.RichTextBlock"/> that creates as many additional overflow
+            columns as needed to fit the available content.
+            </summary>
+            <example>
+            The following creates a collection of 400-pixel wide columns spaced 50 pixels apart
+            to contain arbitrary data-bound content:
+            <code>
+            <RichTextColumns>
+                <RichTextColumns.ColumnTemplate>
+                    <DataTemplate>
+                        <RichTextBlockOverflow Width="400" Margin="50,0,0,0"/>
+                    </DataTemplate>
+                </RichTextColumns.ColumnTemplate>
+                
+                <RichTextBlock Width="400">
+                    <Paragraph>
+                        <Run Text="{Binding Content}"/>
+                    </Paragraph>
+                </RichTextBlock>
+            </RichTextColumns>
+            </code>
+            </example>
+            <remarks>Typically used in a horizontally scrolling region where an unbounded amount of
+            space allows for all needed columns to be created.  When used in a vertically scrolling
+            space there will never be any additional columns.</remarks>
+        </member>
+        <member name="F:THLibrary.Common.RichTextColumns.RichTextContentProperty">
+            <summary>
+            Identifies the <see cref="P:THLibrary.Common.RichTextColumns.RichTextContent"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:THLibrary.Common.RichTextColumns.ColumnTemplateProperty">
+            <summary>
+            Identifies the <see cref="P:THLibrary.Common.RichTextColumns.ColumnTemplate"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.RichTextColumns.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:THLibrary.Common.RichTextColumns"/> class.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.RichTextColumns.ResetOverflowLayout(Windows.UI.Xaml.DependencyObject,Windows.UI.Xaml.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Invoked when the content or overflow template is changed to recreate the column layout.
+            </summary>
+            <param name="d">Instance of <see cref="T:THLibrary.Common.RichTextColumns"/> where the change
+            occurred.</param>
+            <param name="e">Event data describing the specific change.</param>
+        </member>
+        <member name="F:THLibrary.Common.RichTextColumns._overflowColumns">
+            <summary>
+            Lists overflow columns already created.  Must maintain a 1:1 relationship with
+            instances in the <see cref="P:Windows.UI.Xaml.Controls.Panel.Children"/> collection following the initial
+            RichTextBlock child.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.RichTextColumns.MeasureOverride(Windows.Foundation.Size)">
+            <summary>
+            Determines whether additional overflow columns are needed and if existing columns can
+            be removed.
+            </summary>
+            <param name="availableSize">The size of the space available, used to constrain the
+            number of additional columns that can be created.</param>
+            <returns>The resulting size of the original content plus any extra columns.</returns>
+        </member>
+        <member name="M:THLibrary.Common.RichTextColumns.ArrangeOverride(Windows.Foundation.Size)">
+            <summary>
+            Arranges the original content and all extra columns.
+            </summary>
+            <param name="finalSize">Defines the size of the area the children must be arranged
+            within.</param>
+            <returns>The size of the area the children actually required.</returns>
+        </member>
+        <member name="P:THLibrary.Common.RichTextColumns.RichTextContent">
+            <summary>
+            Gets or sets the initial rich text content to be used as the first column.
+            </summary>
+        </member>
+        <member name="P:THLibrary.Common.RichTextColumns.ColumnTemplate">
+            <summary>
+            Gets or sets the template used to create additional
+            <see cref="T:Windows.UI.Xaml.Controls.RichTextBlockOverflow"/> instances.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Common.SuspensionManager">
+            <summary>
+            SuspensionManager captures global session state to simplify process lifetime management
+            for an application.  Note that session state will be automatically cleared under a variety
+            of conditions and should only be used to store information that would be convenient to
+            carry across sessions, but that should be discarded when an application crashes or is
+            upgraded.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Common.SuspensionManager.SaveAsync">
+            <summary>
+            Save the current <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.  Any <see cref="T:Windows.UI.Xaml.Controls.Frame"/> instances
+            registered with <see cref="M:THLibrary.Common.SuspensionManager.RegisterFrame(Windows.UI.Xaml.Controls.Frame,System.String)"/> will also preserve their current
+            navigation stack, which in turn gives their active <see cref="T:Windows.UI.Xaml.Controls.Page"/> an opportunity
+            to save its state.
+            </summary>
+            <returns>An asynchronous task that reflects when session state has been saved.</returns>
+        </member>
+        <member name="M:THLibrary.Common.SuspensionManager.RestoreAsync">
+            <summary>
+            Restores previously saved <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.  Any <see cref="T:Windows.UI.Xaml.Controls.Frame"/> instances
+            registered with <see cref="M:THLibrary.Common.SuspensionManager.RegisterFrame(Windows.UI.Xaml.Controls.Frame,System.String)"/> will also restore their prior navigation
+            state, which in turn gives their active <see cref="T:Windows.UI.Xaml.Controls.Page"/> an opportunity restore its
+            state.
+            </summary>
+            <returns>An asynchronous task that reflects when session state has been read.  The
+            content of <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/> should not be relied upon until this task
+            completes.</returns>
+        </member>
+        <member name="M:THLibrary.Common.SuspensionManager.RegisterFrame(Windows.UI.Xaml.Controls.Frame,System.String)">
+            <summary>
+            Registers a <see cref="T:Windows.UI.Xaml.Controls.Frame"/> instance to allow its navigation history to be saved to
+            and restored from <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.  Frames should be registered once
+            immediately after creation if they will participate in session state management.  Upon
+            registration if state has already been restored for the specified key
+            the navigation history will immediately be restored.  Subsequent invocations of
+            <see cref="M:THLibrary.Common.SuspensionManager.RestoreAsync"/> will also restore navigation history.
+            </summary>
+            <param name="frame">An instance whose navigation history should be managed by
+            <see cref="T:THLibrary.Common.SuspensionManager"/></param>
+            <param name="sessionStateKey">A unique key into <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/> used to
+            store navigation-related information.</param>
+        </member>
+        <member name="M:THLibrary.Common.SuspensionManager.UnregisterFrame(Windows.UI.Xaml.Controls.Frame)">
+            <summary>
+            Disassociates a <see cref="T:Windows.UI.Xaml.Controls.Frame"/> previously registered by <see cref="M:THLibrary.Common.SuspensionManager.RegisterFrame(Windows.UI.Xaml.Controls.Frame,System.String)"/>
+            from <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.  Any navigation state previously captured will be
+            removed.
+            </summary>
+            <param name="frame">An instance whose navigation history should no longer be
+            managed.</param>
+        </member>
+        <member name="M:THLibrary.Common.SuspensionManager.SessionStateForFrame(Windows.UI.Xaml.Controls.Frame)">
+            <summary>
+            Provides storage for session state associated with the specified <see cref="T:Windows.UI.Xaml.Controls.Frame"/>.
+            Frames that have been previously registered with <see cref="M:THLibrary.Common.SuspensionManager.RegisterFrame(Windows.UI.Xaml.Controls.Frame,System.String)"/> have
+            their session state saved and restored automatically as a part of the global
+            <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.  Frames that are not registered have transient state
+            that can still be useful when restoring pages that have been discarded from the
+            navigation cache.
+            </summary>
+            <remarks>Apps may choose to rely on <see cref="T:THLibrary.Common.LayoutAwarePage"/> to manage
+            page-specific state instead of working with frame session state directly.</remarks>
+            <param name="frame">The instance for which session state is desired.</param>
+            <returns>A collection of state subject to the same serialization mechanism as
+            <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.</returns>
+        </member>
+        <member name="P:THLibrary.Common.SuspensionManager.SessionState">
+            <summary>
+            Provides access to global session state for the current session.  This state is
+            serialized by <see cref="M:THLibrary.Common.SuspensionManager.SaveAsync"/> and restored by
+            <see cref="M:THLibrary.Common.SuspensionManager.RestoreAsync"/>, so values must be serializable by
+            <see cref="T:System.Runtime.Serialization.DataContractSerializer"/> and should be as compact as possible.  Strings
+            and other self-contained data types are strongly recommended.
+            </summary>
+        </member>
+        <member name="P:THLibrary.Common.SuspensionManager.KnownTypes">
+            <summary>
+            List of custom types provided to the <see cref="T:System.Runtime.Serialization.DataContractSerializer"/> when
+            reading and writing session state.  Initially empty, additional types may be
+            added to customize the serialization process.
+            </summary>
+        </member>
+        <member name="T:THLibrary.CustomControls.BookViewer">
+            <summary>
+            Class <c>Bookviewer</c> is the User control that displays the details of 
+            a book.
+            </summary>
+        </member>
+        <member name="M:THLibrary.CustomControls.BookViewer.#ctor">
+            <summary>
+            Constructor for the BookViewer class
+            </summary>
+        </member>
+        <member name="T:THLibrary.CustomControls.CurrentSearchViewer">
+            <summary>
+            User Control class <c>CurrentSearchViewer</c> is responsible for maintaing and
+            displaying the Search criteria for the app.
+            This is the code behind which supports the Xaml, responsible for displaying
+            and controlling the layout of the Custom control.
+            </summary>
+            <remarks>
+            The public event <c>ExecuteSearch</c> is raised when the Search button is clicked
+            and passes the current search in the <see cref="T:THLibrary.Infrastructure.EventArguments.SearchEventArgs"/>.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.CustomControls.CurrentSearchViewer.#ctor">
+            <summary>
+            Public, parameterless constructor of the <c>CurrentSearchViewer</c>
+            which is a Custom Control.
+            </summary>
+        </member>
+        <member name="M:THLibrary.CustomControls.CurrentSearchViewer.btnSearch_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            This handles the click event of the Search Button.  This handler
+            constructs a <see cref="T:THLibrary.DataModel.SearchViewModel"/> containing
+            the search criteria, which are then passed to the ExecuteSearch event in 
+            the <see cref="T:THLibrary.Infrastructure.EventArguments.SearchEventArgs"/>.
+            </summary>
+            <param name="sender">Object raising the event</param>
+            <param name="e">Arguments for the event</param>
+        </member>
+        <member name="M:THLibrary.CustomControls.CurrentSearchViewer.cbSearchSelector_SelectionChanged(System.Object,Windows.UI.Xaml.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Handles the SelectionChanged event for the searchable values
+            It addes the selected item to the SearchString if it hasn't already been added, 
+            separating the values with a '|' character.
+            This allows multiple search criteria to be submitted within a search
+            </summary>
+            <param name="sender">Instance of the Combobox containing the seearchable values</param>
+            <param name="e">SelectionChange arguments for the combobox</param>
+            <remarks>
+            All possible collections of Searchable values have a "Select....." as the
+            first item.  This is not selectable and allows us to avoid placing the first
+            item in the searchstring by default.  We can limit it to only those selected
+            by the user.  We get the indesxOf the "Select..." item and ignor the update
+            if the index is 0;
+            </remarks>
+        </member>
+        <member name="M:THLibrary.CustomControls.CurrentSearchViewer.cbSearchType_SelectionChanged(System.Object,Windows.UI.Xaml.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Method <c>cbSearchType_SelectionChanged</c> handles the selectionChanged event
+            It ensures that the SearchableValues combobox points to the first item.
+            </summary>
+            <param name="sender">Instance of the SearchableValues combobox.</param>
+            <param name="e">Selectionchanged event arguments.</param>
+        </member>
+        <member name="E:THLibrary.CustomControls.CurrentSearchViewer.ExecuteSearch">
+            <summary>
+            Public Event <c>ExecuteSearch</c> which is raised
+            when the SearchButton is clicked.
+            </summary>
+        </member>
+        <member name="T:THLibrary.CustomControls.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary.CustomControls</c> contains both Custom Controls
+            used by the application.  
+            </summary>
+            <remarks>
+            Custom controls are used to encapsulate the functionality and to simplify
+            the xaml for the main page.
+            </remarks>
+        </member>
+        <member name="T:THLibrary.DataModel.BookSortEnum">
+            <summary>
+            Enumeration <c>BookSortEnum</c> defins the possible sort sequences
+            for displaying the list of matching books.  It is used within the UI only.
+            </summary>
+        </member>
+        <member name="F:THLibrary.DataModel.BookSortEnum.Title">
+            <summary>
+            Sort books by Title
+            </summary>
+        </member>
+        <member name="F:THLibrary.DataModel.BookSortEnum.Author">
+            <summary>
+            Sort books by Author
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.BookViewModel">
+            <summary>
+            View Model for a Book.
+            </summary>
+            <remarks>
+            Implementing BindableBase provides the INotifyPropertyChanged functionality, which 
+            provides for the PropertyChanged event which facilitates the automatic binding
+            with the xaml controls on the page.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.DataModel.BookViewModel.SetImage(System.String)">
+            <summary>
+            Sets the path to the image for the book.  This has the effect
+            of changing the image.  The image itself is only loaded when
+            the Getter of the Image property is called.
+            </summary>
+            <param name="path">The path for the book.</param>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.UniqueId">
+            <summary>
+            Gets or sets the unique id of the Book.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.Author">
+            <summary>
+            Gets or Sets the Author for the BookViewModel
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.Title">
+            <summary>
+            Getsor ets the Title for the BookViewModel
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.ISBN">
+            <summary>
+            Gets or sets the ISBN for the BookViewModel
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.Synopsis">
+            <summary>
+            Gets or sets the Synopsis for the BookViewModel
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.Keywords">
+            <summary>
+            An Observable collection of strings, containing the keywords attachecd
+            to the book
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.BookViewModel.Image">
+            <summary>
+            Gets the Image associated with the book
+            </summary>
+            <remarks>
+            The path for the image is combined with the base Uri, to find
+            the actual image which is loaded when required.
+            The base Url points to the Assets folder within the appliation.
+            </remarks>
+        </member>
+        <member name="T:THLibrary.DataModel.CurrentSearchViewModel">
+            <summary>
+            Class <c>CurrentSearchViewModel</c> defines the view model that supports
+            the <see cref="T:THLibrary.CustomControls.CurrentSearchViewer"/> user control.
+            </summary>
+            <remarks>
+            The class derives from the <see cref="T:THLibrary.DataModel.SearchViewModel"/> class 
+            which maps to the <see cref="T:Core.Model.SearchCriteria"/> class.  It adds the 
+            SearchTypes and values to support the definition of the <c>SearchViewModel</c>.
+            </remarks>
+        </member>
+        <member name="T:THLibrary.DataModel.SearchViewModel">
+            <summary>
+            Class<c>SearchViewModel</c> defines a search criteria for the UI layer.  It defines
+            all properties as string to support the UI.
+            </summary>
+            <remarks>
+            It implements the IEquatable(T) interface to support selection of the search from the
+            combobox for selecting defined searches.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.DataModel.SearchViewModel.Equals(THLibrary.DataModel.SearchViewModel)">
+            <summary>
+            Provides Equality checking for sorting, searching through
+            dropdown contents.
+            Compares this instance with the 'other' instance for 
+            equality.
+            </summary>
+            <param name="other">The other instance being compared to this instance</param>
+            <returns>True if both instances are equal, otherwise False.</returns>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchViewModel.Title">
+            <summary>
+            Gets the title of the search.  
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchViewModel.UniqueId">
+            <summary>
+            Gets or sets the UniqueId of the search.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchViewModel.Type">
+            <summary>
+            Gets or sets the SearchType of the search.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchViewModel.SearchString">
+            <summary>
+            Gets or sets the SearcString for thesearch
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchViewModel.SearchDate">
+            <summary>
+            Gets or sets the date of the search
+            </summary>
+        </member>
+        <member name="M:THLibrary.DataModel.CurrentSearchViewModel.SetSearch(THLibrary.DataModel.SearchViewModel,System.Collections.ObjectModel.ObservableCollection{THLibrary.DataModel.SearchTypesViewModel})">
+            <summary>
+            Method <c>SetSearch</c> sets the specified search as the current search
+            within the CurrentSearchViewModel.
+            </summary>
+            <param name="newSearch">The SearchViewModel to be set as the current search.</param>
+            <param name="types">Collection of SearchTypes</param>
+        </member>
+        <member name="P:THLibrary.DataModel.CurrentSearchViewModel.SearchTypes">
+            <summary>
+            Gets or sets the possiible SearchTypes for a search
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.CurrentSearchViewModel.SelectedTypeIndex">
+            <summary>
+            Gets or sets the Index of the SearchType selected from the SerchType Combobox.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.CurrentSearchViewModel.SelectedTypeValueIndex">
+            <summary>
+            Gets or sets the Index of the SearchType selected value.
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.LibraryDataSource">
+            <summary>
+            Class <c>LibraryDataSource</c> is the view model that supports the main page
+            of this single page Library Search application.
+            </summary>
+            <remarks>
+            <para>
+            It contains a Private static instance of itself, which is the standard pattern for 
+            use with a datasource to ensure a singleton as described in the MS Windows Store 
+            App documentation.
+            </para>
+            <para>
+            It allows for a design instance which makes data available at design time so that
+            the pages look "realistic" when being coded.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.#ctor">
+            <summary>
+            Constructor for the class.  It loads the data from the CSV file through the Library Repository
+            and the searches using the Search Repository.
+            </summary>
+        </member>
+        <member name="F:THLibrary.DataModel.LibraryDataSource._libraryDataSource">
+            <summary>
+            Singleton: This creates a singleton instance of this class.
+            </summary>
+            <remarks>
+            This is the standard pattern for use with a datasource to ensure a singleton as 
+            described in the MS Windows Store App documentation.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.GetBooks">
+            <summary>
+            Returns a collection of Books sorted according to the current sort, which
+            is either by Title or by Author name.
+            </summary>
+            <returns>Sorted collection of Books.</returns>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.GetBooks(THLibrary.DataModel.BookSortEnum)">
+            <summary>
+            Returns a collection of Books sorted according to the specified sort sequence.
+            </summary>
+            <param name="sequence">The Sort sequence</param>
+            <returns>Sorted collection of Books</returns>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.GetMatchingBooks(THLibrary.DataModel.SearchViewModel)">
+            <summary>
+            Returns a collection of Books that match the specified search criteria, and 
+            sorted according to the current sort sequence.
+            </summary>
+            <param name="criteria">The criteria use to match the bolks.</param>
+            <returns>Sorted collection of matching Books.</returns>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.ResetAllBooks">
+            <summary>
+            Gets a collection of books, containing all books in the library, sorted according
+            to the current sort sequence.
+            </summary>
+            <returns>A sorted collection of books</returns>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.SetSortSequence(THLibrary.DataModel.BookSortEnum)">
+            <summary>
+            Sets the current sort sequence for displaying the list of books, as specified
+            by the <see cref="T:THLibrary.DataModel.BookSortEnum"/> enumeration.
+            </summary>
+            <param name="sequence">The Sort Sequence to be set.</param>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.GetSearches">
+            <summary>
+            Returns a collection of Defined Searches
+            </summary>
+            <returns>A Collection of searches</returns>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.GetCurrentSearch">
+            <summary>
+            Gets the current search to support the CurrentSearchViewer
+            </summary>
+            <returns>An IEnumerable(CurrentSearchViewModel) containing the current Search</returns>
+            <remarks>
+            <para>
+            This returns a collection instead of a single instance to avoid an "index out of range"
+            exception caused when a single instance is returned.  As the value is returned from a
+            method, the inbuilt framework for the Windows Store App seems to expect a collection.
+            </para>
+            <para>
+            Further investigation is required to resolve this, as it cannot be the case that all
+            datasource models added to the DefaultViewModel must be collections.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.GetSearchTypes">
+            <summary>
+            Returns and Observablecollection of SearchTypes.
+            </summary>
+            <returns>A Collection of SearchTypes</returns>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.AddSearch(THLibrary.DataModel.CurrentSearchViewModel)">
+            <summary>
+            Adds the search contained in the CurrentSearchviewModel to the collection of Searches.
+            </summary>
+            <param name="newSearch">The CurrentSearchViewModel</param>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.LoadData">
+            <summary>
+            Method <c>LoadData</c> is called to load the view model with the data
+            from the underlying Data Model, via the repositories, which access
+            the underlying Data Model.
+            </summary>
+        </member>
+        <member name="M:THLibrary.DataModel.LibraryDataSource.SetUpTestData">
+            <summary>
+            Method <c>SetUpTestData</c> load the view model with temporary data.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.LibraryDataSource.CurrentSortSequence">
+            <summary>
+            Gets the Enumeration that defines the possible sort sequences of the search results.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.LibraryDataSource.AllBooks">
+            <summary>
+            Gets the ObservableCollection of Library Books.  It contains all books in the library
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.LibraryDataSource.AllSearches">
+            <summary>
+            Gets the ObservableCollection of all defined searches.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.LibraryDataSource.CurrentSearch">
+            <summary>
+            Gets the search defined as the Current search.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.LibraryDataSource.SearchTypes">
+            <summary>
+            Gets the ObservableColection of possible SearchTypes.
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary.DataModel</c> contains all View Models that support
+            the components of the main page.
+            </summary>
+            <remarks>
+            <para>
+            The <c>LibraryDataSource</c> performs the role of "ViewModel" for the page
+            and brings together the other classes to properly support the main page. Keeping them
+            completely separate from the Business Models, means that no UI concerns creep into 
+            the business model, and the view models can match exactly the Views they support which
+            need bare no relation to the structure of the business model, this helps promote loose 
+            coupling with the business model and good separation of concerns.
+            </para>
+            <para>
+            The models support the automatic twoway binding offered by the xaml pages
+            by deriving from the <see cref="T:THLibrary.Common.BindableBase"/> class.
+            This implements the standard <c>INotifyPropertyChanged</c> interface which provides
+            for the <c>PropertyChanged</c> event being raised.  The setters of properties 
+            use the <see cref="M:THLibrary.Common.BindableBase.SetProperty``1(``0@,``0,System.String)"/> method
+            which fires the event if the property value has changed.
+            </para>
+            <para>
+            The models also implement collections as <c>ObservableCollections&lt;T&gt;</c>
+            which follow the Observer design pattern, which is how the changes in the collections
+            and the bound controls are propogated automatically.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:THLibrary.DataModel.SampleDataCommon">
+            <summary>
+            Base class for <see cref="T:THLibrary.DataModel.SampleDataItem"/> and <see cref="T:THLibrary.DataModel.SampleDataGroup"/> that
+            defines properties common to both.
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.SampleDataItem">
+            <summary>
+            Generic item data model.
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.SampleDataGroup">
+            <summary>
+            Generic group data model.
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.SampleDataSource">
+            <summary>
+            Creates a collection of groups and items with hard-coded content.
+            
+            SampleDataSource initializes with placeholder data rather than live production
+            data so that sample data is provided at both design-time and run-time.
+            </summary>
+        </member>
+        <member name="M:THLibrary.DataModel.SampleDataSource.#ctor">
+            <summary>
+            Constructor, which loads the sample data.
+            </summary>
+        </member>
+        <member name="T:THLibrary.DataModel.SearchTypesViewModel">
+            <summary>
+            Class <c>SearchTypesViewModel</c> defines the SearchTypes, from the 
+            <see cref="T:Core.Model.SearchTypeEnum"/> enumeration.  
+            </summary>
+            <remarks>
+            <para>
+            Each SearchType contains the searchble values associated with the SearchType.
+            </para>
+            <para>
+            The class implements the IEquatable(T) interface so that instances are deemed
+            equal based on the Type and not including the values.  This functionality is
+            required for the selection of Types from the SeachType combobox in the UI.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:THLibrary.DataModel.SearchTypesViewModel.Equals(THLibrary.DataModel.SearchTypesViewModel)">
+            <summary>
+            IEquatable Interface.
+            Instances are deemed equal if the Type is the same, ignoring the values.
+            </summary>
+            <param name="other">The instance being compared to this instance.</param>
+            <returns>True if they are the same, otherwise False</returns>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchTypesViewModel.Type">
+            <summary>
+            Gets or sets the SearchType represented as a string.
+            </summary>
+        </member>
+        <member name="P:THLibrary.DataModel.SearchTypesViewModel.Values">
+            <summary>
+            Gets or sets the ObservableCollection of values associated with the SearchType.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Infrastructure.EventArguments.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary.Infrastructure.EventArgs</c> contains custom EventArgs
+            required by the UI.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Infrastructure.EventArguments.SearchEventArgs">
+            <summary>
+            Class <c>SearchEventArgs</c> defines the arguments for the ExecuteSearch
+            event of the CurrentSearchvewer.  
+            </summary>
+            <remarks>
+            The eventargs enable the current search to be passed to the event handler
+            to allow the search to be performed.
+            </remarks>
+        </member>
+        <member name="P:THLibrary.Infrastructure.EventArguments.SearchEventArgs.SearchCriteria">
+            <summary>
+            Gets or sets the SearchCriteria to be passed to the search.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Infrastructure.MapperClasses.MapLIbraryBooksToBookViewModelCollection">
+            <summary>
+            Static class <c>MapLIbraryBooksToBookViewModelCollection</c> is responsible for
+            mapping an IEnumerable(T) collection of LibraryBooks to an IEnumerable(V)
+            collection of BookViewModels
+            </summary>
+            <remarks>
+            This calls the static class <see cref="T:THLibrary.Infrastructure.MapperClasses.MapLibraryBookToBookViewModel"/>
+            class to perform the map for each item in the collection.
+            </remarks>
+        </member>
+        <member name="M:THLibrary.Infrastructure.MapperClasses.MapLIbraryBooksToBookViewModelCollection.Map(System.Collections.Generic.IEnumerable{Core.Model.LibraryBook})">
+            <summary>
+            The static <c>Map</c> method maps the LibraryBook collection, which implements 
+            IEnumerable(LibraryBook) to a collection of BookViewModel which implements 
+            IEnumberable(BookViewModel).
+            </summary>
+            <param name="books">The collection of LibraryBooks</param>
+            <returns>The collection of BookViewModels</returns>
+        </member>
+        <member name="T:THLibrary.Infrastructure.MapperClasses.MapLibraryBookToBookViewModel">
+            <summary>
+            Static class <c>MapLibraryBookToBookViewModel</c> is responsible for mapping
+            a LibraryBook class to a BookViewModel class.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Infrastructure.MapperClasses.MapLibraryBookToBookViewModel.Map(Core.Model.LibraryBook)">
+            <summary>
+            Static <c>Map</c> method maps a <see cref="T:Core.Model.LibraryBook"/> class to a 
+            <see cref="T:THLibrary.DataModel.BookViewModel"/> class.
+            </summary>
+            <param name="book">The LibraryBook instance.</param>
+            <returns>The BookViewModel instance.</returns>
+        </member>
+        <member name="T:THLibrary.Infrastructure.MapperClasses.MapSearchCriteriaToSearchViewModel">
+            <summary>
+            Static class <c>MapSearchCriteriaToSearchViewModel</c> is responsible for mapping
+            a SearchCriteria class from the business model to a SearchViewModel class from the 
+            UI View Models..
+            </summary>
+        </member>
+        <member name="M:THLibrary.Infrastructure.MapperClasses.MapSearchCriteriaToSearchViewModel.Map(Core.Model.SearchCriteria)">
+            <summary>
+            Static <c>Map</c> method maps a <see cref="T:Core.Model.SearchCriteria"/> class to a 
+            <see cref="T:THLibrary.DataModel.SearchViewModel"/> class.
+            </summary>
+            <param name="criteria">The SearchCriteria instance.</param>
+            <returns>The SearchViewModel instance.</returns>
+        </member>
+        <member name="T:THLibrary.Infrastructure.MapperClasses.MapSearchViewModelToSearchCriteria`1">
+            <summary>
+            A Generic class <c>MapSearchViewModelToSearchCriteria</c> is responsible for mapping
+            a SearchViewModel class From the UI to a SearchCriteria class of the Business model.  
+            </summary>
+            <typeparam name="T">SearchViewMode class or class derived from SearchViewModel</typeparam>
+            <remarks>
+            <para>
+            It also works for the CurrentSearchViewModel as it is generic and the 
+            CurrentSearchViewModel derives from SearchViewmodel.
+            </para>
+            <para>
+            This class is not static so that we can inject a dependency in the constructor
+            </para>
+            </remarks>
+        </member>
+        <member name="F:THLibrary.Infrastructure.MapperClasses.MapSearchViewModelToSearchCriteria`1._factory">
+            <summary>
+            Holds the instance of the SearchCriteriaFactory.
+            </summary>
+        </member>
+        <member name="M:THLibrary.Infrastructure.MapperClasses.MapSearchViewModelToSearchCriteria`1.#ctor(Core.Factories.SearchCriteriaFactory)">
+            <summary>
+            Constructore that takes in the dependency for the SearchCriteriaFactory at runtime.
+            </summary>
+            <param name="searchCriteriaFactory">Instance of the SearchCriteriaFactory</param>
+        </member>
+        <member name="M:THLibrary.Infrastructure.MapperClasses.MapSearchViewModelToSearchCriteria`1.Map(`0)">
+            <summary>
+            The <c>Map</c> method maps a <see cref="T:Core.Model.SearchCriteria"/> class or class derived from it, to a 
+            <see cref="T:THLibrary.DataModel.CurrentSearchViewModel"/> class.
+            </summary>
+            <param name="currentSearch">The LibraryBook instance.</param>
+            <returns>The SearchCriteria instance.</returns>
+        </member>
+        <member name="T:THLibrary.Infrastructure.MapperClasses.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary.Infrastructure.MapperClasses</c> contains all
+            mapper classes which handle the conversions between Business models
+            and Ui viewmodels.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Infrastructure.Unity.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary.Infrastructure.Unity</c> contains the UI level
+            Unity dependency configuration.
+            </summary>
+        </member>
+        <member name="T:THLibrary.Infrastructure.Unity.UnityConfiguration">
+            <summary>
+            Static class <c>UnityConfiguration</c> is responsible for defining the
+            resolution of dependencies within the UI layer.  It calls the main
+            <see cref="M:IoC.Configuration.RegisterTypes(Microsoft.Practices.Unity.IUnityContainer)"/> to configure the applicatoin
+            dependencies first.
+            </summary>
+            <remarks>
+            There are no such dependencies in the application at the moment.  However, 
+            all view Model classes should really be created using the factory pattern
+            which would require dependencies to be resolved, this is where that would 
+            be achieved.  (Future Development).
+            </remarks>
+        </member>
+        <member name="M:THLibrary.Infrastructure.Unity.UnityConfiguration.RegisterTypes(Microsoft.Practices.Unity.IUnityContainer)">
+            <summary>
+            Method <c>RegisterTypes</c> defines the resolutions to the dependencies.
+            </summary>
+            <param name="container">Instance of the Unit IoC</param>
+        </member>
+        <member name="T:THLibrary.MainPage">
+            <summary>
+            This is the Single Page of the application.  It provides the complete search
+            functionality and displays the results.
+            </summary>
+            <remarks>
+            <para>
+            The page is divided into different sections:
+            <list type="numbered">
+            <item>
+            <term>SearchSelector</term>
+            <description>This is the dropdown box where saved searches are listed, for selection. 
+              It is the top left of the page</description>
+            </item>
+            <item>
+            <term>CurrentSearch</term>
+            <description>This shows the definition of the selected search, or allow entry of
+            new search criteria.  It also allows the search to be initiated.  It is the top right of the page.</description>
+            </item>
+            <item>
+            <term>ResultsList</term>
+            <description>This shows the results of the search, and allows these results to be sorted by Title or Author.
+            It is the bottom left of the page</description>
+            </item>
+            <item>
+            <term>BookDetail</term>
+            <description>This shows the details of the book currently selected from the ResultsList.  It is the bottom
+            right of the page.</description>
+            </item>
+            </list>
+            </para>
+            <para>
+            The page supports an AppBar, which is displayed by right clicking the mouse.  The AppBar provides
+            the options:
+            <list type="numbered">
+            <item>
+            <term>New Search</term>
+            <description>Create a new search and initialised the search type.</description>
+            </item>
+            <item>
+            <term>Save Search</term>
+            <description>Saves the current search to the data source</description>
+            </item>
+            <item>
+            <term>Reset Results</term>
+            <description>Cancels the search and redisplays all books in the library.</description>
+            </item>
+            </list>
+            </para>
+            <para>
+            The xaml uses a mixture of user Controls and built-in controls to format the page.  This is to
+            demonstrate different ways to code the xaml.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:THLibrary.MainPage.#ctor">
+            <summary>
+            constructor for <c>MainPage</c>, which initilises the components on the page.
+            </summary>
+        </member>
+        <member name="M:THLibrary.MainPage.LoadState(System.Object,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Populates the page with content passed during navigation.  Any saved state is also
+            provided when recreating a page from a prior session.
+            </summary>
+            <param name="navigationParameter">The parameter value passed to
+            <see cref="M:Windows.UI.Xaml.Controls.Frame.Navigate(System.Type,System.Object)"/> when this page was initially requested.
+            </param>
+            <param name="pageState">A dictionary of state preserved by this page during an earlier
+            session.  This will be null the first time a page is visited.</param>
+        </member>
+        <member name="M:THLibrary.MainPage.SaveState(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Preserves state associated with t his page in case the application is suspended or the
+            page is discarded from the navigation cache.  Values must conform to the serialization
+            requirements of <see cref="P:THLibrary.Common.SuspensionManager.SessionState"/>.
+            </summary>
+            <param name="pageState">An empty dictionary to be populated with serializable state.</param>
+        </member>
+        <member name="M:THLibrary.MainPage.cbSelectSearch_SelectionChanged(System.Object,Windows.UI.Xaml.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Handles the selection Changed event for the drop down list of saved searches.
+            </summary>
+            <param name="sender">Instance of the cbSelectSearch drop down box.</param> 
+            <param name="e"></param>
+        </member>
+        <member name="M:THLibrary.MainPage.SearchViewer_Execute(System.Object,THLibrary.Infrastructure.EventArguments.SearchEventArgs)">
+            <summary>
+            Handles the ExecuteSearch event raised from the 
+            <see cref="T:THLibrary.CustomControls.CurrentSearchViewer"/> custom
+            control.  It is responsible for the search being executed against
+            the underlying data model.
+            </summary>
+            <param name="sender">Instance of the CurrentSearchViewer Custom Control</param>
+            <param name="e">Instance of the eventArgs which contain the search criteria</param>
+        </member>
+        <member name="M:THLibrary.MainPage.SelectSortSequence(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Handles the Checked event for the group of radio buttons on the page
+            </summary>
+            <param name="sender">The RadioButton that raised the event</param>
+            <param name="e">The args for the event</param>
+        </member>
+        <member name="M:THLibrary.MainPage.OnNewSearchButtonClicked(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Handles the OnNewSearchButtonClicked even from the app bar button
+            </summary>
+            <param name="sender">Instance of the App Bar button</param>
+            <param name="e">Instance of the event args.</param>
+        </member>
+        <member name="M:THLibrary.MainPage.OnSaveSearchButtonClicked(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Handles the OnSaveSearchButtonClicked event from the app bar button
+            </summary>
+            <param name="sender">Instance of the App Bar button</param>
+            <param name="e">Instance of the event args.</param>
+        </member>
+        <member name="M:THLibrary.MainPage.OnResetButtonClicked(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Handles the OnResetButtonClicked event from the app bar button.  It refreshed
+            the list with all the books in the library.  This is OK as there are only a
+            handful of books in the library.
+            </summary>
+            <param name="sender">Instance of the App Bar button</param>
+            <param name="e">Instance of the event args.</param>
+        </member>
+        <member name="T:THLibrary.NamespaceDoc">
+            <summary>
+            Namespace <c>THLibrary</c> is the UI layer of the application.  It is a 
+            Windows 8 Store Single Page application, using Xaml.
+            </summary>
+            <remarks>
+            <para>
+            The application is structured according the to 'Onion Model' architectural 
+            pattern.  This is the Presentation layer.
+            </para>
+            <para>
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            </para>
+            <para>
+            The UI layer attempts to follow the MVVM arthitectural pattern.  Although not strictly as
+            there is some code in the 'Code-Behind' the page that could be refactored into the 
+            <see cref="T:THLibrary.DataModel.LibraryDataSource"/>.
+            </para>
+            </remarks>
+        </member>
+    </members>
+</doc>

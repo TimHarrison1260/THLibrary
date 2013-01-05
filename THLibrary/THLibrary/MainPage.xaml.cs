@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     MinPage.xaml..cs
+//Description:      Code behind the Application Main Page.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -15,10 +25,63 @@ using Microsoft.Practices.Unity;
 namespace THLibrary
 {
     /// <summary>
-    /// A basic page that provides characteristics common to most applications.
+    /// This is the Single Page of the application.  It provides the complete search
+    /// functionality and displays the results.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The page is divided into different sections:
+    /// <list type="numbered">
+    /// <item>
+    /// <term>SearchSelector</term>
+    /// <description>This is the dropdown box where saved searches are listed, for selection. 
+    ///   It is the top left of the page</description>
+    /// </item>
+    /// <item>
+    /// <term>CurrentSearch</term>
+    /// <description>This shows the definition of the selected search, or allow entry of
+    /// new search criteria.  It also allows the search to be initiated.  It is the top right of the page.</description>
+    /// </item>
+    /// <item>
+    /// <term>ResultsList</term>
+    /// <description>This shows the results of the search, and allows these results to be sorted by Title or Author.
+    /// It is the bottom left of the page</description>
+    /// </item>
+    /// <item>
+    /// <term>BookDetail</term>
+    /// <description>This shows the details of the book currently selected from the ResultsList.  It is the bottom
+    /// right of the page.</description>
+    /// </item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// The page supports an AppBar, which is displayed by right clicking the mouse.  The AppBar provides
+    /// the options:
+    /// <list type="numbered">
+    /// <item>
+    /// <term>New Search</term>
+    /// <description>Create a new search and initialised the search type.</description>
+    /// </item>
+    /// <item>
+    /// <term>Save Search</term>
+    /// <description>Saves the current search to the data source</description>
+    /// </item>
+    /// <item>
+    /// <term>Reset Results</term>
+    /// <description>Cancels the search and redisplays all books in the library.</description>
+    /// </item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// The xaml uses a mixture of user Controls and built-in controls to format the page.  This is to
+    /// demonstrate different ways to code the xaml.
+    /// </para>
+    /// </remarks>
     public sealed partial class MainPage : THLibrary.Common.LayoutAwarePage
     {
+        /// <summary>
+        /// constructor for <c>MainPage</c>, which initilises the components on the page.
+        /// </summary>
         public MainPage()
         {
             this.InitializeComponent();
@@ -51,7 +114,7 @@ namespace THLibrary
         /// <summary>
         /// Preserves state associated with t his page in case the application is suspended or the
         /// page is discarded from the navigation cache.  Values must conform to the serialization
-        /// requirements of <see cref="SuspensionManager.SessionState"/>.
+        /// requirements of <see cref="THLibrary.Common.SuspensionManager.SessionState"/>.
         /// </summary>
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
@@ -101,6 +164,27 @@ namespace THLibrary
             if (matchingBooks.Count() > 0)
                 this.resultsListView.SelectedIndex = 0;
         }
+
+
+        /// <summary>
+        /// Handles the Checked event for the group of radio buttons on the page
+        /// </summary>
+        /// <param name="sender">The RadioButton that raised the event</param>
+        /// <param name="e">The args for the event</param>
+        private void SelectSortSequence (object sender, RoutedEventArgs e)
+        {
+            //  Don't process anything if the datamodel is not initialised, things are being loaded.
+            if (this.DefaultViewModel.Count() == 0) return;
+
+            //  The button is names according to the enumeration.
+            BookSortEnum seq = (BookSortEnum) Enum.Parse(typeof(BookSortEnum), (sender as RadioButton).Name);
+            //  Set the current sort sequence
+            LibraryDataSource.SetSortSequence(seq);
+            //  retrieve the books sorted accordingly
+            var books = LibraryDataSource.GetBooks();
+            this.DefaultViewModel["Items"] = books;
+        }
+
 
         #region AppBar handlers
 

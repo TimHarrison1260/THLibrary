@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Core</name>
+    </assembly>
+    <members>
+        <member name="T:Core.Factories.ConcreteLibraryBookFactory">
+            <summary>
+            Concrete implementation of the LibraryBookFactory
+            </summary>
+        </member>
+        <member name="T:Core.Factories.LibraryBookFactory">
+            <summary>
+            Abstract Class <c>LibraryBookFactory</c> 
+            provides a contract for the LibraryBookFactory 
+            class.
+            </summary>
+            <remarks>
+            This is an implementation of the Abstract Factory pattern.
+            </remarks>
+        </member>
+        <member name="M:Core.Factories.LibraryBookFactory.Create">
+            <summary>
+            Create an instance of the <see cref="T:Core.Model.LibraryBook"/> class
+            </summary>
+            <returns>An Instance of LibraryBook</returns>
+        </member>
+        <member name="M:Core.Factories.ConcreteLibraryBookFactory.Create">
+            <summary>
+            Creates an initialised instance of the 
+            <see cref="T:Core.Model.LibraryBook"/> class.
+            </summary>
+            <returns>Initialised LibraryBook class.</returns>
+            <remarks>
+            Derives from the <see cref="T:Core.Factories.LibraryBookFactory"/> abstract class.
+            </remarks>
+        </member>
+        <member name="T:Core.Factories.ConcreteSearchCriteriaFactory">
+            <summary>
+            An instance of the SearchCriteriaFactory class.
+            </summary>
+        </member>
+        <member name="T:Core.Factories.SearchCriteriaFactory">
+            <summary>
+            Abstract Class <c>SearchCriteriaFactory</c> 
+            provides a contrat for the SearhCriteriaFactory 
+            class.
+            </summary>
+        </member>
+        <member name="M:Core.Factories.SearchCriteriaFactory.Create">
+            <summary>
+            Create an instance of the <see cref="T:Core.Model.SearchCriteria"/> class
+            </summary>
+            <returns>An instance of SearchCriteria</returns>
+        </member>
+        <member name="M:Core.Factories.ConcreteSearchCriteriaFactory.Create">
+            <summary>
+            Creates an initialised instance of the 
+            <see cref="T:Core.Model.SearchCriteria"/> class.
+            </summary>
+            <returns>Initialised SearchCriteria class.</returns>
+            <remarks>
+            Derives from the <see cref="T:Core.Factories.SearchCriteriaFactory"/> abstract class.
+            </remarks>
+        </member>
+        <member name="T:Core.Factories.NamespaceDoc">
+            <summary>
+            Namespace <c>Core.Factories</c> is responsible for the Factories used
+            to create instances of the various abstract classes.  It makes use of 
+            the Abstract Factory patterns to expose the contract only to the
+            other layers of the application.
+            </summary>
+            <remarks>
+            <para>
+            The <c>Core</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with the application data model
+            and logic.
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            </para>
+            <para>
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Core.Interfaces.ISearchUnitOfWork">
+            <summary>
+            Interface <c>ISearchUnitOfWork</c> defines the interface suitable 
+            for the SearchCriteria class, allowing the implementation of the 
+            UnitOfWork pattern to ensure that the same instance of the 
+            underlying Library data is always accessed.
+            </summary>
+            <remarks>
+            <para>
+            It contains a two methods, <c>Load</c> and <c>Save</c>, which allows the
+            search date to be populated from the underlying data source snd persisted
+            to the same source, when the application is terminated.
+            </para>
+            <para>
+            Because this is part of a Windows Store Appllication, a
+            specific Load method is needed so that file IO and data
+            load can happen when the application is launched.
+            Previously, problems have been experienced with IO calls
+            to read application folders, when not performed directly
+            from the Application Launch and suspend method (within the
+            App.xaml.cs).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Core.Interfaces.ISearchUnitOfWork.Load">
+            <summary>
+            Load the data from the underlying data source to the Search class
+            </summary>
+        </member>
+        <member name="M:Core.Interfaces.ISearchUnitOfWork.Save">
+            <summary>
+            Persist the searchs to the underlying data source.
+            </summary>
+        </member>
+        <member name="T:Core.Interfaces.ISearchRepository">
+            <summary>
+            Interface <c>ISearchRepository</c> defines the interface for the 
+            <c>Infrastructure.Repositories.SearchRepository</c> class.
+            </summary>
+        </member>
+        <member name="M:Core.Interfaces.ISearchRepository.GetSearches">
+            <summary>
+            Gets a collection of all defined searches
+            </summary>
+            <returns>A collection of searches</returns>
+        </member>
+        <member name="M:Core.Interfaces.ISearchRepository.GetSearchTypes">
+            <summary>
+            Gets a string representation of the search types
+            </summary>
+            <returns>A collection of search types</returns>
+        </member>
+        <member name="M:Core.Interfaces.ISearchRepository.AddSearch(Core.Model.SearchCriteria)">
+            <summary>
+            Adds a search to the searches
+            </summary>
+            <param name="criteria">Search being added</param>
+            <returns>the assigned Id of the search added</returns>
+        </member>
+        <member name="M:Core.Interfaces.ISearchRepository.CloseData">
+            <summary>
+            Persists the searches to the underlying local file.
+            </summary>
+        </member>
+        <member name="T:Core.Interfaces.IUnitOfWork">
+            <summary>
+            Interface <c>IUnitOfWork</c> defines the interface suitable 
+            for the Library class, allowing the implementation of the 
+            UnitOfWork pattern to ensure that the same instance of the 
+            underlying Library data is always accessed.
+            </summary>
+            <remarks>
+            <para>
+            It contains a single method, <c>Load</c> which allows the
+            library to be populated from the underlying data source.
+            </para>
+            <para>
+            Because this is part of a Windows Store Appllication, a
+            specific Load method is needed so that file IO and data
+            load can happen when the application is launched.
+            Previously, problems have been experienced with IO calls
+            to read application folders, when not performed directly
+            from the Application Launch and suspend method (within the
+            App.xaml.cs).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Core.Interfaces.IUnitOfWork.Load">
+            <summary>
+            Load the data from the underlying data source to the library class.
+            </summary>
+        </member>
+        <member name="T:Core.Interfaces.ILibraryRepository">
+            <summary>
+            Interface <c>ILibraryRepository</c> defines the contract for 
+            the <c>Infrastructure.Repositories.LibraryRepository</c>
+            class.  
+            </summary>
+        </member>
+        <member name="M:Core.Interfaces.ILibraryRepository.GetAllBooks">
+            <summary>
+            Gets all the books in the Library
+            </summary>
+            <returns>A collection of library books.</returns>
+        </member>
+        <member name="M:Core.Interfaces.ILibraryRepository.GetSearchableBookValues(System.String)">
+            <summary>
+            Gets the list of searchable values. Keywords, authors, titles, iSBN's.
+            </summary>
+            <param name="ValueType">The type of value.</param>
+            <returns>A collection of values.</returns>
+        </member>
+        <member name="M:Core.Interfaces.ILibraryRepository.SearchBooks(Core.Model.SearchCriteria)">
+            <summary>
+            Gets a collection of all books that match the specified search criteria
+            </summary>
+            <param name="searchCriteria">the search criteria</param>
+            <returns>A collection of library books</returns>
+        </member>
+        <member name="T:Core.Interfaces.NamespaceDoc">
+            <summary>
+            Namespace <c>Core.Interfaces</c> defines the contracts for the various
+            components of the application.  They allow the various layers of the
+            application to access to other components of the application.
+            </summary>
+            <remarks>
+            <para>
+            The <c>Core</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with the application data model
+            and logic.
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            </para>
+            <para>
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Core.Model.Authors">
+            <summary>
+            Class <c>Authors</c> represents a complete list
+            of Authors for all books within the library.
+            It is intended to give a complete list of Authors
+            who have titles within the library, primarily for
+            use when searching for an Authors books, allowing 
+            the author to be selected from a list.
+            </summary>
+            <remarks>
+            <para>
+            It inherits the List(string) so that they can be
+            searched for by index, found using string values
+            and added to easily.  Additionally it is sorted
+            but the items are not added in sorted sequence.
+            </para>
+            <para>
+            The standard contract <c>IComparable</c> is not required to facilitate
+            the sort, as it would just replicate the comparison of strings.  Since
+            List is a generic collection of strings, this will be the sort by default.
+            </para>
+            <para>
+            It is populated when the books are first loaded.
+            </para>
+            <para>
+            Future Development: To complete this class for robust control of
+            adding elements and avoiding duplication, the AddRange, Insert and
+            InsertRange methods should also be replaced.  They are not for this 
+            implementation as these methods are not used for this application.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Core.Model.Authors.Add(System.String)">
+            <summary>
+            Add the Author to the collection if it doesn't exist.
+            </summary>
+            <param name="Author">The Author to add</param>
+            <remarks>
+            The <c>new</c> keyword is used so that the base.Add
+            method is completely replaced by this method.
+            </remarks>
+        </member>
+        <member name="T:Core.Model.ConcreteClasses.ConcreteLibraryBook">
+            <summary>
+            Class <c>ConcreteLibraryBook</c> is used to create an instance of 
+            the <see cref="T:Core.Model.LibraryBook"/> abstract class.
+            </summary>
+        </member>
+        <member name="T:Core.Model.LibraryBook">
+            <summary>
+            Class <c>LibraryBook</c> is an abstract class that defines a library book.
+            </summary>
+            <remarks>
+            <para>
+            Instances of this class are created using the <see cref="T:Core.Factories.LibraryBookFactory"/>, which
+            is an implementation of the Abstract Factory pattern.
+            </para>
+            <para>
+            Implements the <c>IComparable(T)</c> interface to define a default sort sequence for any
+            collection containing the search.
+            Implements the <c>IEquatable(T)</c> interface to allow comparison with another instance
+            of LibraryBook for equality.
+            Implements the <c>IEqualityComparer</c> to allow two instance of LibraryBook to be
+            compared for equality.
+            </para>
+            <para>
+            However, the use of Linq, within the repositories, rather negates the use of these standard
+            contracts.  They are, nevertherless, left in the class, to allow the class to be used without
+            Linq.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Core.Model.LibraryBook.CompareTo(Core.Model.LibraryBook)">
+            <summary>
+            Implementation of the IComparable interface which is used
+            by the sort method as the default sort sequence.
+            The default sort is by Book Title.
+            </summary>
+            <param name="other">The instance of the LibraryBook being compared to this one.</param>
+            <returns>An <c>System.int</c>, indicating the relative position in the sort order of the LibraryBook classes </returns>
+        </member>
+        <member name="M:Core.Model.LibraryBook.Equals(Core.Model.LibraryBook)">
+            <summary>
+            Implementation of the IEquatable interface.
+            </summary>
+            <param name="other">The instance of the LibraryBook being compared to this one.</param>
+            <returns>Returns TRUE if they are equal otherwise FALSE.</returns>
+        </member>
+        <member name="M:Core.Model.LibraryBook.Equals(Core.Model.LibraryBook,Core.Model.LibraryBook)">
+            <summary>
+            Implementation of the IEqualityComparer(T) interface.  Check
+            for equality between the two supplied instances of 
+            LibraryBook.
+            </summary>
+            <param name="b1">The first instance of LibraryBook</param>
+            <param name="b2">the second instance of LibraryBook</param>
+            <returns>Return TRUE if they are equal otherwise FALSE.</returns>
+        </member>
+        <member name="M:Core.Model.LibraryBook.GetHashCode(Core.Model.LibraryBook)">
+            <summary>
+            Implementation of IEqualityComparer(T) interface.  Generates
+            a HashCode for the instance of LibraryBook, from the
+            ISBN, Title and Author.
+            ie. the information that makes a LibraryBook
+            equal.
+            </summary>
+            <param name="obj">The instance of LibraryBook to get the HashCode for.</param>
+            <returns>The generated HashCode</returns>
+        </member>
+        <member name="M:Core.Model.LibraryBook.AreEqual(Core.Model.LibraryBook,Core.Model.LibraryBook)">
+            <summary>
+            Check the two instances of LibraryBook for 
+            equality.  They are deemed equal if the 
+            ISBN, Title and Author are the same.
+            </summary>
+            <param name="b1">The first instance of LibraryBook</param>
+            <param name="b2">The second instance of LibraryBook</param>
+            <returns>Return TRUE if they are equal otherwise FALSE.</returns>
+        </member>
+        <member name="P:Core.Model.LibraryBook.ISBN">
+            <summary>
+            Gets or sets the ISBN reference of the book
+            </summary>
+        </member>
+        <member name="P:Core.Model.LibraryBook.Title">
+            <summary>
+            Gets or sets the Title of the book
+            </summary>
+        </member>
+        <member name="P:Core.Model.LibraryBook.Author">
+            <summary>
+            Gets or sets the Author of the book
+            </summary>
+        </member>
+        <member name="P:Core.Model.LibraryBook.Synopsis">
+            <summary>
+            Gets or sets the Synopsis of the book
+            </summary>
+        </member>
+        <member name="P:Core.Model.LibraryBook.KeyWords">
+            <summary>
+            Gets or sets the collection of keywords
+            associated with the book
+            </summary>
+            <remarks>
+            Using a List(string) to hold the keywords so 
+            that they can be referenced individually
+            and by and index.  A dictionary is not
+            appropriate as we just need a list of
+            strings, keys are not required.
+            </remarks>
+        </member>
+        <member name="T:Core.Model.ConcreteClasses.ConcreteSearchCriteria">
+            <summary>
+            Class <c>ConcreteSearchCriteria</c> is used to create an instance of 
+            the <see cref="T:Core.Model.SearchCriteria"/> abstract class.
+            </summary>
+        </member>
+        <member name="T:Core.Model.SearchCriteria">
+            <summary>
+            Class <c>SearchCriteria</c> is an abstract class that defines a search.
+            </summary>
+            <remarks>
+            <para>
+            Instances of this class are created using the <see cref="T:Core.Factories.SearchCriteriaFactory"/>, which
+            is an implementation of the Abstract Factory pattern.
+            </para>
+            <para>
+            This SearchCriteria class will be serialised as XML, and therefore does not need
+            any attributes to declare properties as serialisable, instead they
+            just need to be public.
+            
+            Mark this abstract class with the XmlInclude attribute, to ensure that the concrete
+            implementation <see cref="T:Core.Model.ConcreteClasses.ConcreteSearchCriteria"/> is 
+            accessible within the Xml serialisation process.
+            </para>
+            <para>
+            Implements the <c>IComparable(T)</c> interface to define a default sort sequence for any
+            collection containing the search.
+            Implements the <c>IEquatable(T)</c> interface to allow comparison with another instance
+            of SearchCriteria for equality.
+            Implements the <c>IEqualityComparer</c> to allow two instance of SearchCriteria to be
+            compared for equality.
+            </para>
+            <para>
+            However, the use of Linq, within the repositories, rather negates the use of these standard
+            contracts.  They are, nevertherless, left in the class, to allow the class to be used without
+            Linq.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Core.Model.SearchCriteria.CompareTo(Core.Model.SearchCriteria)">
+            <summary>
+            Implementation of the IComparable interface which is used
+            by the sort method as the default sort sequence.
+            The default sort is by SearchCriteria Title.
+            </summary>
+            <param name="other">The instance of SearchCriteria being compared with this instance</param>
+            <returns>An <c>System.int</c>, indicating the relative position in the sort order of the SerchCriteria classes </returns>
+        </member>
+        <member name="M:Core.Model.SearchCriteria.Equals(Core.Model.SearchCriteria)">
+            <summary>
+            Implementation of the IEquatable(T) interface
+            </summary>
+            <param name="other">The instance of SearchCriteria being compared to this one</param>
+            <returns>Returns TRUE if instances are equal otherwise FALSE.</returns>
+        </member>
+        <member name="M:Core.Model.SearchCriteria.Equals(Core.Model.SearchCriteria,Core.Model.SearchCriteria)">
+            <summary>
+            Implementation of the IEqualityComparer(T) interface  Check
+            for equality between the two supplied instances of 
+            SearchCriteria.
+            </summary>
+            <param name="s1">The first instance of SearchCriteria</param>
+            <param name="s2">The second instance of SearchCriteria</param>
+            <returns>Returns TRUE if instances are equal otherwise FALSE.</returns>
+        </member>
+        <member name="M:Core.Model.SearchCriteria.GetHashCode(Core.Model.SearchCriteria)">
+            <summary>
+            Part of the IEqualityComparer(T) interface
+            return a hashcode generated from the 
+            Type, SearchString and SearchDate.  
+            ie. the information that makes a searchCriteria
+            equal.
+            </summary>
+            <param name="obj">An instance of SearchCriteria</param>
+            <returns>The generated HashCode.</returns>
+        </member>
+        <member name="M:Core.Model.SearchCriteria.AreEqual(Core.Model.SearchCriteria,Core.Model.SearchCriteria)">
+            <summary>
+            Check the two instances of searchCriteria for 
+            equality.  They are deemed equal if the 
+            Type, SearchString and Date are the same.
+            </summary>
+            <param name="s1">The first instance of SearchCriteria</param>
+            <param name="s2">The second instance of SearchCriteria</param>
+            <returns>Returns TRUE if instances are equal otherwise FALSE.</returns>
+        </member>
+        <member name="P:Core.Model.SearchCriteria.UniqueId">
+            <summary>
+            Get or sets the uniquId for the search
+            </summary>
+        </member>
+        <member name="P:Core.Model.SearchCriteria.Title">
+            <summary>
+            A title for the search
+            </summary>
+            <remarks>
+            Set the title to "Search for 'type': 'value(s)"
+            </remarks>
+        </member>
+        <member name="P:Core.Model.SearchCriteria.Type">
+            <summary>
+            Gets or sets the type of search, which defines whether
+            the search is for Author, Title, ISBN or a keyword.
+            </summary>
+        </member>
+        <member name="P:Core.Model.SearchCriteria.SearchString">
+            <summary>
+            The string to search for within the specified keyword.
+            </summary>
+            <remarks>
+            A space separated collection of string values.
+            </remarks>
+        </member>
+        <member name="P:Core.Model.SearchCriteria.SearchDate">
+            <summary>
+            Date and time the search was last run.
+            </summary>
+        </member>
+        <member name="T:Core.Model.ConcreteClasses.NamespaceDoc">
+            <summary>
+            Namespace <c>ConcreteClasses</c> contains all concrete implementations
+            of the abstract classes defined in the <c>Core.Model</c> namespace.
+            </summary>
+            <remarks>
+            The concrete classes are used with the Factories in <c>Core.Interfaces</c>
+            namespace when instantiating the abstract classes.  This is part of the
+            Abstract Factory pattern.
+            </remarks>
+        </member>
+        <member name="T:Core.Model.ISBNReferences">
+            <summary>
+            Class <c>ISBNReferences</c> represents a complete list
+            of ISBN Numbers for all books within the library.
+            It is intended primarily for use with quick search
+            facilities.
+            </summary>
+            <remarks>
+            It inherits the List(string) so that they can be
+            searched for by index, found using string values
+            and added to easily.
+            <para>
+            The standard contract <c>IComparable</c> is not required to facilitate
+            the sort, as it would just replicate the comparison of strings.  Since
+            List is a generic collection of strings, this will be the sort by default.
+            </para>
+            <para>
+            It is populated when the books are first loaded.
+            </para>
+            <para>
+            Unlike <see cref="T:Core.Model.Authors"/>, it is not necessary to avoid 
+            duplication of ISBN references as they are unique to a book.  
+            Therefore there is no need to override the Add, AddRange, Insert and 
+            InsertRange methods.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Core.Model.Keywords">
+            <summary>
+            Class <c>Keywords</c> represents a complete list
+            of Keyword tags for all books within the library.
+            It is intended to give a complete list of Keywords
+            to search for within the library.
+            </summary>
+            <remarks>
+            <para>
+            It inherits the List(string) so that they can be
+            searched for by index, found using string values
+            and added to easily.  Additionally it is sorted
+            but the items are not added in sorted sequence.
+            </para>
+            <para>
+            The standard contract <c>IComparable</c> is not required to facilitate
+            the sort, as it would just replicate the comparison of strings.  Since
+            List is a generic collection of strings, this will be the sort by default.
+            </para>
+            <para>
+            It is populated when the books are first loaded.
+            </para>
+            <para>
+            Future Development: To complete this class for robust control of
+            adding elements and avoiding duplication, the AddRange, Insert and
+            InsertRange methods should also be replaced.  They are not for this 
+            implementation as these methods are not used for this application.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Core.Model.Keywords.Add(System.String)">
+            <summary>
+            Add a keyword to the collection if it doesnt exist.
+            </summary>
+            <param name="keyword">The keyword being added</param>
+            <remarks>
+            The <c>new</c> keyword is used so that the base.Add
+            method is completely replaced by this method.
+            </remarks>
+        </member>
+        <member name="T:Core.Model.NamespaceDoc">
+            <summary>
+            Namespace <c>Core.Model</c> contains all classes that define the data model for
+            the library application.
+            </summary>
+            <remarks>
+            <para>
+            The <c>Core</c> namespace contains all elements of the
+            Application design model, referred to as the 'Onion Model', considered
+            to be part of the application dealing with the application data model
+            and logic.
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            </para>
+            <para>
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Core.Model.SearchTypeEnum">
+            <summary>
+            Enumeration <c>SearchTypeEnum</c> defines the different
+            types of search possible within this Library search facility.
+            The default is to search by SearchString.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <listheader>
+            <term>SearchType</term>
+            <description>Resulting search</description>
+            </listheader>
+            <item>
+            <term>SearchString</term>
+            <description>Searches for the value entered into the searchsting, within the Title or Synopsis of the book</description>
+            </item>
+            <item>
+            <term>Author</term>
+            <description>Searches for the value(s) entered into the searchstring, within the Author</description>
+            </item>
+            <item>
+            <term>Title</term>
+            <description>Searches for the value entered into the searchsrting, within the Title of the book</description>
+            </item>
+            <item>
+            <term>ISBN</term>
+            <description>Searches for the value entered into the searchsrting, within the ISBN</description>
+            </item>
+            <item>
+            <term>Keyword</term>
+            <description>Searches for the value entered into the searchsrting, within the Keywords of the book</description>
+            </item>
+            </list>
+            The searches will accept multiple values in the search string if they are separated by a '|' character.
+            </remarks>
+        </member>
+        <member name="F:Core.Model.SearchTypeEnum.SearchString">
+            <summary>
+            Search for the value(s) in the Title and Synopsis of the Book.
+            </summary>
+        </member>
+        <member name="F:Core.Model.SearchTypeEnum.Author">
+            <summary>
+            Search for the value(s) in the Author of the book.
+            </summary>
+        </member>
+        <member name="F:Core.Model.SearchTypeEnum.Title">
+            <summary>
+            Search for the value(s) in the Title of the book.
+            </summary>
+        </member>
+        <member name="F:Core.Model.SearchTypeEnum.ISBN">
+            <summary>
+            Search for the value(s) in the ISBN of the book.
+            </summary>
+        </member>
+        <member name="F:Core.Model.SearchTypeEnum.Keyword">
+            <summary>
+            Search for the Value(s) in the Keywors of the book.
+            </summary>
+        </member>
+        <member name="T:Core.Model.Titles">
+            <summary>
+            Class <c>Titles</c> represents a complete list
+            of Titles for all books within the library.
+            It is primarily for use for selecting Titles
+            from a list.
+            </summary>
+            <remarks>
+            It inherits the List(string) so that they can be
+            searched for by index, found using string values
+            and added to easily.
+            <para>
+            The standard contract <c>IComparable</c> is not required to facilitate
+            the sort, as it would just replicate the comparison of strings.  Since
+            List is a generic collection of strings, this will be the sort by default.
+            </para>
+            <para>
+            It is populated when the books are first loaded.
+            </para>
+            <para>
+            Unlike <see cref="T:Core.Model.Authors"/>, it is not necessary to avoid 
+            duplication of Titles as they are unique to a book.  
+            Therefore there is no need to override the Add, AddRange, Insert and 
+            InsertRange methods.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Core.NamespaceDoc">
+            <summary>
+            Namespace <c>Core</c> contains the Data Model for the application. It is
+            responsible for exposing the data model, to the other application layers
+            through interfaces, contracts and Factories.  
+            </summary>
+            <remarks>
+            <para>
+            The structure of the application follows the 'Onion model' as described
+            by Jeffrey Palermo, 
+            see <a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/.">jeffreypalermo.com.</a>
+            </para>
+            <para>
+            This is a separate project within the Application, which therefore holds
+            all objects in a separate assembly, thus improving the Separation of 
+            Concerns required for reusable and unit testable code.
+            </para>
+            </remarks>
+        </member>
+    </members>
+</doc>

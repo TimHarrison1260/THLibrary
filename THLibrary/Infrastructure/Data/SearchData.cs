@@ -1,4 +1,14 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     SearchData.cs
+//Description:      Hold the Search Criteria data in memory
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +20,7 @@ using Core.Interfaces;
 using Core.Model;
 using Core.Factories;
 
+
 namespace Infrastructure.Data
 {
     /// <summary>
@@ -17,6 +28,7 @@ namespace Infrastructure.Data
     /// data relevent to the searches;
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This class holds a collection of the individual <see cref="Core.Model.SearchCriteria"/> classes.
     /// The collection is exposes as a <c>Public</c> property and is held as a generic List of type
     /// <c>SearchCriteria</c>.  The List(T) collection is used to facilitate working with Linq from 
@@ -25,8 +37,12 @@ namespace Infrastructure.Data
     /// individually.  However, the use of Linq will negate some of the index access requirements.
     /// The other generic collection types offer very specific type of access and data structures which 
     /// are not the most appropriate here.
+    /// </para>
+    /// <para>
     /// Makes use of the UnitOfWork pattern through implementing the <see cref="Core.Interfaces.ISearchUnitOfWork"/>
-    /// interface combined with Lifetime management of the class through the Unity IoC.
+    /// interface combined with Lifetime management of the class through the Unity IoC.  This ensures the same instance
+    /// of the SearchData is always accessed.
+    /// </para>
     /// </remarks>
     public class SearchData : ISearchUnitOfWork
     {

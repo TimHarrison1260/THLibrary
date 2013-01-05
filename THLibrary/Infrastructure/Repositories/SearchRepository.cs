@@ -1,13 +1,20 @@
-﻿using System;
+﻿//***************************************************************************************************
+//Name of File:     SearchRepository.cs
+//Description:      Controls access to the Search Criteria data.
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Core.Interfaces;
 using Core.Model;
 using Infrastructure.Data;
-using Windows.Storage;
 
 namespace Infrastructure.Repositories
 {
@@ -16,6 +23,14 @@ namespace Infrastructure.Repositories
     /// It is responsible for access to the Search Criteria, as well as controlling the loading and 
     /// persistance of the search criteria to the local storage file.
     /// </summary>
+    /// <remarks>
+    /// The Searches and Searchtypes are returned from two methods, which return IEnumerable collections of the
+    /// <see cref="Core.Model.SearchCriteria"/> and <c>String</c> respectively, which supports the use of
+    /// Linq to Objects.
+    /// It also makes use of the UnitOfWork pattern through implementing the <see cref="Core.Interfaces.ISearchUnitOfWork"/>
+    /// interface combined with Lifetime management of the class through the Unity IoC.  This ensures that the 
+    /// data is always retrieved from the same instance of the <see cref="Infrastructure.Data.SearchData"/> class.
+    /// </remarks>
     public class SearchRepository : ISearchRepository
     {
         private readonly SearchData _unitOfWork;
@@ -32,9 +47,9 @@ namespace Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Retrieve all searches defined
+        /// Gets a collection of all defined searches
         /// </summary>
-        /// <returns>collection of searches</returns>
+        /// <returns>A collection of searches</returns>
         public IEnumerable<SearchCriteria> GetSearches()
         {
             var searches = _unitOfWork.Searches;
@@ -65,23 +80,6 @@ namespace Infrastructure.Repositories
             return criteria.UniqueId.ToString();
         }
 
-        ///// <summary>
-        ///// Saves the specified search criteria
-        ///// </summary>
-        ///// <param name="criteria"></param>
-        //public void SaveSearch(SearchCriteria criteria)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        ///// <summary>
-        ///// Deletes the specified Search Criteria
-        ///// </summary>
-        ///// <param name="criteria"></param>
-        //public void DeleteSearch(SearchCriteria criteria)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// CloseData method is responsible for persisting

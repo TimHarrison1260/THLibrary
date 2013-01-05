@@ -48,10 +48,7 @@ namespace THLibrary.Common
             var eventHandler = this.PropertyChanged;
             if (eventHandler != null)
             {
-                var args = new PropertyChangedEventArgs(propertyName);
-                eventHandler(this, args);
-
-//                eventHandler(this, new PropertyChangedEventArgs(propertyName));
+                eventHandler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

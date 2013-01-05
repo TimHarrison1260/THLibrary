@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//***************************************************************************************************
+//Name of File:     BookViewModel.cs
+//Description:      BookViewModel, supports the BookViewer user Control
+//Author:           Tim Harrison
+//Date of Creation: Dec 2012.
+//
+//I confirm that the code contained in this file (other than that provided or authorised) is all 
+//my own work and has not been submitted elsewhere in fulfilment of this or any other award.
+//***************************************************************************************************
+
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THLibrary.Common;
-using THLibrary.DataModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -15,7 +20,9 @@ namespace THLibrary.DataModel
     /// View Model for a Book.
     /// </summary>
     /// <remarks>
-    /// Implementing BindableBase provides the INotifyPropertyChanged functionality
+    /// Implementing BindableBase provides the INotifyPropertyChanged functionality, which 
+    /// provides for the PropertyChanged event which facilitates the automatic binding
+    /// with the xaml controls on the page.
     /// </remarks>
     public class BookViewModel : BindableBase
     {
@@ -79,13 +86,24 @@ namespace THLibrary.DataModel
             set { this.SetProperty(ref this._synopsis, value); }
         }
 
+        /// <summary>
+        /// An Observable collection of strings, containing the keywords attachecd
+        /// to the book
+        /// </summary>
         public ObservableCollection<string> Keywords
         {
             get { return this._keywords; }
             set { this._keywords = value; }
         }
 
-
+        /// <summary>
+        /// Gets the Image associated with the book
+        /// </summary>
+        /// <remarks>
+        /// The path for the image is combined with the base Uri, to find
+        /// the actual image which is loaded when required.
+        /// The base Url points to the Assets folder within the appliation.
+        /// </remarks>
         public ImageSource Image
         {
             get
@@ -104,15 +122,17 @@ namespace THLibrary.DataModel
             }
         }
 
+        /// <summary>
+        /// Sets the path to the image for the book.  This has the effect
+        /// of changing the image.  The image itself is only loaded when
+        /// the Getter of the Image property is called.
+        /// </summary>
+        /// <param name="path">The path for the book.</param>
         public void SetImage(String path)
         {
             this._image = null;
             this._imagePath = path;
             this.OnPropertyChanged("Image");
         }
-
-
-
-
     }
 }
