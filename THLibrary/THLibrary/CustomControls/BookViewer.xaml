@@ -35,18 +35,18 @@
                     <Run Text="{Binding Synopsis, Mode=TwoWay}"/>
                 </Paragraph> 
             </RichTextBlock> 
-            <!--<TextBlock x:Name="synopsisText" Text="{Binding Synopsis, Mode=TwoWay}"/>-->
             <StackPanel Orientation="Horizontal">
-                <!--<ListView 
+                <ListView 
                     x:Name="listKeywords"
                     ItemsSource="{Binding Keywords}"
                     Margin="10,10,0,0"
-                    Padding="10,0,0,60" />-->
-                <GridView
-                    x:Name="gridviewKeywords"
-                    ItemsSource="{Binding Keywords}"
-                    Margin="10,10,0,0"
-                    Padding="10,0,0,0" />
+                    Padding="10,0,0,60" >
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
             </StackPanel>
         </StackPanel>
     </Grid>

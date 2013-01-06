@@ -145,15 +145,27 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\asp .net mvc4 in action.jpg" />
+    <Content Include="Assets\Beginning C++ Game Programming_.jpg" />
+    <Content Include="Assets\Databases for Dummies.jpg" />
+    <Content Include="Assets\Game Programming Gems 8.jpg" />
     <Content Include="Assets\LibraryData.txt" />
+    <None Include="Assets\OriginalCata.csv" />
     <None Include="packages.config" />
     <None Include="THLibrary_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\pro asp .net mvc 3 framework.jpg" />
+    <Content Include="Assets\ProASPNETMVC3Framework.jpeg" />
+    <Content Include="Assets\professional design patterns.jpg" />
+    <Content Include="Assets\Programming MS .Net Prosise.jpg" />
+    <Content Include="Assets\Racing The Beam.jpg" />
+    <Content Include="Assets\Shaders for Game Programmers and Artists.jpg" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Unreal Game Development.jpg" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +191,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Callisto">
-      <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity.WinRT">
       <HintPath>..\packages\Unity.3.0.1208-Preview\lib\WinRT45\Microsoft.Practices.Unity.WinRT.dll</HintPath>
     </Reference>

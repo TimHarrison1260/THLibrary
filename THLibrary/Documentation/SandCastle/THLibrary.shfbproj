@@ -20,13 +20,14 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\..\Core\bin\Debug\Core.dll" />
-<DocumentationSource sourceFile="..\..\Core\bin\Debug\Core.xml" />
-<DocumentationSource sourceFile="..\..\Infrastructure\bin\Debug\Infrastructure.dll" />
-<DocumentationSource sourceFile="..\..\Infrastructure\bin\Debug\Infrastructure.xml" />
-<DocumentationSource sourceFile="..\..\IoC\bin\Debug\IoC.dll" />
-<DocumentationSource sourceFile="..\..\IoC\bin\Debug\IoC.xml" />
-<DocumentationSource sourceFile="..\..\THLibrary\bin\Debug\THLibrary.exe" />
-<DocumentationSource sourceFile="..\..\THLibrary\bin\Debug\THLibrary.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\..\Core\bin\Debug\Core.xml" />
+      <DocumentationSource sourceFile="..\..\Infrastructure\bin\Debug\Infrastructure.dll" />
+      <DocumentationSource sourceFile="..\..\Infrastructure\bin\Debug\Infrastructure.xml" />
+      <DocumentationSource sourceFile="..\..\IoC\bin\Debug\IoC.dll" />
+      <DocumentationSource sourceFile="..\..\IoC\bin\Debug\IoC.xml" />
+      <DocumentationSource sourceFile="..\..\THLibrary\bin\Debug\THLibrary.exe" />
+      <DocumentationSource sourceFile="..\..\THLibrary\bin\Debug\THLibrary.xml" />
+    </DocumentationSources>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <SyntaxFilters>Standard</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
@@ -57,9 +58,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Callisto">
-      <HintPath>..\..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity.WinRT">
       <HintPath>..\..\packages\Unity.3.0.1208-Preview\lib\WinRT45\Microsoft.Practices.Unity.WinRT.dll</HintPath>
     </Reference>

@@ -57,6 +57,10 @@ namespace Core.Model
         /// </summary>
         public string Synopsis { get; set; }
         /// <summary>
+        /// Gets or sets the path to the Image of the book cover.
+        /// </summary>
+        public string ImagePath { get; set; }
+        /// <summary>
         /// Gets or sets the collection of keywords
         /// associated with the book
         /// </summary>

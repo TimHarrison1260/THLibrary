@@ -34,6 +34,12 @@ namespace THLibrary
     /// Further investigation must be done to see how to implement Di through properties
     /// to see if that is a better option and could remove the need to expose the instance
     /// through Public properties of the App class.
+    /// <para>
+    /// Since this is a single page application there is no neded to saving any state 
+    /// information as it is not possible to navigate away from the page.  Data is loaded
+    /// at application start and the Searches, if there are any, are saved at application
+    /// suspend.
+    /// </para>
     /// </remarks>
     sealed partial class App : Application
     {

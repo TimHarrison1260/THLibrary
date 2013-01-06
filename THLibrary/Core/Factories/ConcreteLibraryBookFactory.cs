@@ -35,6 +35,7 @@ namespace Core.Factories
                 Title = "",
                 Author = "",
                 Synopsis = "",
+                ImagePath = "",
                 KeyWords = new List<string>()
             };
         }

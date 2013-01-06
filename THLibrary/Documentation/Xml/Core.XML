@@ -364,6 +364,11 @@
             Gets or sets the Synopsis of the book
             </summary>
         </member>
+        <member name="P:Core.Model.LibraryBook.ImagePath">
+            <summary>
+            Gets or sets the path to the Image of the book cover.
+            </summary>
+        </member>
         <member name="P:Core.Model.LibraryBook.KeyWords">
             <summary>
             Gets or sets the collection of keywords

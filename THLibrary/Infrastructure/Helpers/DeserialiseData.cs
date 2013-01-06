@@ -51,6 +51,7 @@ namespace Infrastructure.Helpers
             book.Title = elements[1].Trim();
             book.Author = elements[2].Trim();
             book.Synopsis = elements[4].Trim();
+            book.ImagePath = elements[5].Trim();
             
             //  Now split the keywords, they are space separated
             //  and held in element 3

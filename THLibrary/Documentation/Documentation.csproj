@@ -34,12 +34,21 @@
   <ItemGroup>
     <None Include="Analysis\Development Notes.docx" />
     <None Include="App.config" />
+    <None Include="Design\Design.docx" />
+    <None Include="SandCastle\Help\LastBuild.log" />
+    <None Include="SandCastle\Help\THLibrary.chm" />
+    <None Include="SandCastle\THLibrary.shfbproj_student" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Xml\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Analysis\THLibrary.png" />
+    <Content Include="Analysis\THLibrarybig.jpg" />
+    <Content Include="SandCastle\THLibrary.shfbproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

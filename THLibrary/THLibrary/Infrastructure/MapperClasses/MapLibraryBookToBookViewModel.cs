@@ -39,7 +39,10 @@ namespace THLibrary.Infrastructure.MapperClasses
                 Keywords = new ObservableCollection<string>(book.KeyWords),
                 Synopsis = book.Synopsis
             };
-            bookVM.SetImage("Assets/Logo.png");     //  TODO: update to correct image file, default for now.
+            if (book.ImagePath==string.Empty)
+                bookVM.SetImage("Assets/Logo.png");     //  TODO: update to correct image file, default for now.
+            else
+                bookVM.SetImage(string.Format("Assets/{0}", book.ImagePath));
 
             return bookVM;
         }
